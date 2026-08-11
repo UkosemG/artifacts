@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #1a1726;
+  --text-light: #fefcfd;
+  --canvas: #fcfbfe;
+  --violet: #5538c9;
+  --dusk: #6f6e98;
+  --lavender: #cdcefa;
+  --blush: #f9e9f4;
+  --rose: #ffb5d0;
+  --border: #e7e5f2;
+  --shadow-sm: 0 1px 2px 0 rgba(26, 23, 38, 0.05), 0 2px 6px 0 rgba(26, 23, 38, 0.06);
+  --shadow-md: 0 2px 4px 0 rgba(26, 23, 38, 0.05), 0 8px 20px 0 rgba(26, 23, 38, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.bg-wash {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(55% 40% at 10% 0%, rgba(205, 206, 250, 0.5), transparent),
+    radial-gradient(50% 40% at 95% 15%, rgba(249, 233, 244, 0.6), transparent),
+    radial-gradient(60% 45% at 80% 100%, rgba(255, 181, 208, 0.35), transparent),
+    var(--canvas);
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 96px 24px 120px;
+}
+
+.hero { margin-bottom: 64px; }
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: var(--dusk);
+  margin: 0 0 12px;
+}
+
+h1 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.lede {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--dusk);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.artifact-card {
+  display: block;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  padding: 24px 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.artifact-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.artifact-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.artifact-card-title .arrow {
+  color: var(--dusk);
+  transition: transform 0.15s ease;
+}
+
+.artifact-card:hover .artifact-card-title .arrow {
+  transform: translateX(3px);
+  color: var(--violet);
+}
+
+.artifact-card-desc {
+  color: var(--dusk);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.artifact-card-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--dusk);
+  opacity: 0.8;
+}
+
+.empty {
+  text-align: center;
+  color: var(--dusk);
+  padding: 60px 0;
+  font-size: 1.05rem;
+}
