@@ -507,12 +507,15 @@ body {
 
 /* Media — the headline figures are the picture. */
 .post-media {
-  display: grid;
-  place-items: center;
-  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 28px 20px;
   background:
-    radial-gradient(70% 90% at 15% 0%, var(--lavender-soft) 0%, transparent 70%),
-    radial-gradient(70% 90% at 90% 100%, var(--rose-soft) 0%, transparent 70%),
+    radial-gradient(80% 70% at 10% 0%, var(--lavender) 0%, transparent 68%),
+    radial-gradient(75% 70% at 95% 100%, var(--rose) 0%, transparent 66%),
+    radial-gradient(60% 60% at 60% 40%, var(--blush) 0%, transparent 70%),
     var(--canvas);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -522,45 +525,78 @@ body {
   margin: 0;
   color: var(--dusk);
   font-size: 0.9rem;
+  text-align: center;
+}
+
+/* The one number that matters, at display size. */
+.hero-fact {
+  text-align: center;
+}
+
+.hero-label {
+  margin: 0;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dusk);
+}
+
+.hero-value {
+  margin: 6px 0 0;
+  font-size: clamp(3rem, 16vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
 .post-facts {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
   margin: 0;
   padding: 0;
   width: 100%;
 }
 
-.post-media--1 .post-facts,
-.post-media--3 .post-facts {
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+.post-facts--1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.post-facts--2,
+.post-facts--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .fact {
-  padding: 14px 16px;
+  padding: 12px 14px;
   border-radius: var(--r-md);
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
 }
 
 .fact dt {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   font-family: 'DM Mono', ui-monospace, monospace;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--dusk);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fact dd {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .post-actions {
@@ -1050,15 +1086,25 @@ body {
   .post-media {
     flex: 1;
     min-height: 0;
-    padding: 20px 16px;
+    padding: 24px 18px;
   }
 
   .fact {
-    padding: 16px;
+    padding: 12px 10px;
   }
 
   .fact dd {
-    font-size: 1.625rem;
+    font-size: 1.1875rem;
+  }
+
+  /* Tighter chrome so the reel keeps more of the screen. */
+  .post-head {
+    padding: 12px 16px;
+  }
+
+  .post-avatar {
+    width: 36px;
+    height: 36px;
   }
 
   .post-actions .btn {
