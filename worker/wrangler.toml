@@ -1,0 +1,29 @@
+name = "bria-feed-chat"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+[vars]
+# Exact origin(s) allowed to call this worker. Comma-separated for more than one.
+# Include your local dev origin while testing, e.g.
+#   "https://ukosemg.github.io,http://localhost:8000"
+ALLOWED_ORIGIN = "https://ukosemg.github.io"
+
+# Must match the Google OAuth client ID in config.js — tokens are rejected otherwise.
+GOOGLE_CLIENT_ID = "REPLACE_ME.apps.googleusercontent.com"
+
+# Only Google accounts on this Workspace domain may use the chat.
+ALLOWED_DOMAIN = "bria.ai"
+
+# Optional: override the Claude model. Defaults to claude-opus-5.
+# CLAUDE_MODEL = "claude-opus-5"
+
+# ANTHROPIC_API_KEY is a secret, never a var:
+#   wrangler secret put ANTHROPIC_API_KEY
+
+# Comments live in KV so everyone sees the same thread. Create the namespace with
+#   wrangler kv namespace create COMMENTS
+# then paste the id it prints below and uncomment these three lines.
+# Without it the feed still works; comments just stay on each person's device.
+# [[kv_namespaces]]
+# binding = "COMMENTS"
+# id = "paste-the-id-wrangler-prints"
