@@ -19,3 +19,11 @@ ALLOWED_DOMAIN = "bria.ai"
 
 # ANTHROPIC_API_KEY is a secret, never a var:
 #   wrangler secret put ANTHROPIC_API_KEY
+
+# Comments live in KV so everyone sees the same thread. Create the namespace with
+#   wrangler kv namespace create COMMENTS
+# then paste the id it prints below and uncomment these three lines.
+# Without it the feed still works; comments just stay on each person's device.
+# [[kv_namespaces]]
+# binding = "COMMENTS"
+# id = "paste-the-id-wrangler-prints"

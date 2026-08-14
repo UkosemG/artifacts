@@ -76,6 +76,27 @@ wrangler deploy
 
 Wrangler prints the worker URL, e.g. `https://bria-feed-chat.your-account.workers.dev`.
 
+### Turn on shared comments (same worker)
+
+Comments need somewhere shared to live, or everyone only sees their own. One
+command creates it:
+
+```bash
+wrangler kv namespace create COMMENTS
+```
+
+Wrangler prints an `id`. Paste it into `wrangler.toml` and uncomment those three
+lines:
+
+```toml
+[[kv_namespaces]]
+binding = "COMMENTS"
+id = "the-id-wrangler-printed"
+```
+
+Then `wrangler deploy` again. Skip this and the feed still works — comments just
+stay on each person's own device, and the app says so.
+
 ### Point the app at it
 
 Edit `config.js`:
@@ -84,7 +105,7 @@ Edit `config.js`:
 CHAT_PROXY_URL: 'https://bria-feed-chat.your-account.workers.dev',
 ```
 
-Commit and push. "Ask Claude" is now live.
+Commit and push. "Ask Claude" and comments are now live.
 
 ### Smoke tests
 

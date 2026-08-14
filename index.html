@@ -91,6 +91,39 @@
     </form>
   </aside>
 
+  <!-- Comments sheet -->
+  <div class="sheet-backdrop" id="comments-backdrop" hidden></div>
+  <aside
+    class="comments-sheet"
+    id="comments-sheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="comments-title"
+    hidden
+  >
+    <header class="comments-header">
+      <div class="comments-header-text">
+        <p class="eyebrow">Comments</p>
+        <h2 class="comments-title" id="comments-title"></h2>
+      </div>
+      <button type="button" class="icon-btn" id="comments-close" aria-label="Close comments">&times;</button>
+    </header>
+
+    <ul class="comment-list" id="comments-list"></ul>
+
+    <form class="comment-form" id="comments-form">
+      <label class="visually-hidden" for="comments-input">Add a comment</label>
+      <input
+        id="comments-input"
+        type="text"
+        placeholder="Add a comment…"
+        maxlength="1000"
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn--primary" id="comments-send">Post</button>
+    </form>
+  </aside>
+
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>

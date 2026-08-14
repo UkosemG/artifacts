@@ -454,12 +454,11 @@ body {
 .post-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
   transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
@@ -468,62 +467,87 @@ body {
   transform: translateY(-2px);
 }
 
-.post-meta {
+/* Header — who posted, the way a username sits above a photo. */
+.post-head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  color: var(--dusk);
+  gap: 10px;
+  padding: 14px 16px;
 }
 
-.channel-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
+.post-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
   border-radius: var(--r-full);
   background: var(--lavender-soft);
-  color: var(--ink);
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 0.7rem;
 }
 
-.channel-chip--personal {
-  background: var(--rose-soft);
+.post-head-text {
+  min-width: 0;
 }
 
 .post-title {
   margin: 0;
-  font-size: 1.375rem;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
   letter-spacing: -0.01em;
 }
 
-.post-desc {
+.post-sub {
+  margin: 2px 0 0;
+  color: var(--dusk);
+  font-size: 0.8125rem;
+}
+
+/* Media — the headline figures are the picture. */
+.post-media {
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background:
+    radial-gradient(70% 90% at 15% 0%, var(--lavender-soft) 0%, transparent 70%),
+    radial-gradient(70% 90% at 90% 100%, var(--rose-soft) 0%, transparent 70%),
+    var(--canvas);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.post-media-empty {
   margin: 0;
   color: var(--dusk);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .post-facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 8px;
-  margin: 4px 0 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
   padding: 0;
+  width: 100%;
+}
+
+.post-media--1 .post-facts,
+.post-media--3 .post-facts {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .fact {
-  padding: 10px 12px;
+  padding: 14px 16px;
   border-radius: var(--r-md);
-  background: var(--canvas);
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid var(--border);
+  backdrop-filter: blur(2px);
 }
 
 .fact dt {
-  margin: 0 0 2px;
+  margin: 0 0 4px;
   font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 0.65rem;
   letter-spacing: 0.08em;
@@ -533,16 +557,17 @@ body {
 
 .fact dd {
   margin: 0;
-  font-size: 1.0625rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .post-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 4px;
+  padding: 14px 16px 0;
 }
 
 .post-actions .btn {
@@ -555,6 +580,179 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  padding: 12px 16px 0;
+}
+
+/* Caption — the description, under the post. */
+.post-caption {
+  padding: 12px 16px 0;
+}
+
+.post-caption p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Comments */
+.post-comments {
+  padding: 10px 16px 16px;
+}
+
+.comment-line {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dusk);
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.comment-line:hover {
+  color: var(--violet);
+}
+
+.comment-line--has {
+  font-weight: 600;
+}
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(26, 23, 38, 0.32);
+  backdrop-filter: blur(2px);
+}
+
+.comments-sheet {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: var(--shadow-xl);
+
+  inset: auto 0 0 0;
+  height: 80dvh;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  animation: sheet-up 0.22s ease;
+}
+
+.comments-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.comments-title {
+  margin: 4px 0 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.comment-list {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 16px 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+}
+
+.comment-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-full);
+  background: var(--lavender-soft);
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.comment-body {
+  min-width: 0;
+}
+
+.comment-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.comment-author {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.comment-time {
+  display: block;
+  margin-top: 3px;
+  color: var(--dusk);
+  font-size: 0.75rem;
+}
+
+.comment-empty,
+.comment-note {
+  color: var(--dusk);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.comment-note {
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--blush-soft);
+  border: 1px solid var(--border);
+  font-size: 0.8125rem;
+}
+
+.comment-note--error {
+  background: var(--rose-soft);
+  border-color: var(--rose);
+  color: var(--ink);
+}
+
+.comment-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+}
+
+.comment-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+
+.comment-form input:focus {
+  outline: none;
+  border-color: var(--violet);
+  background: var(--surface);
 }
 
 .chip {
@@ -837,10 +1035,10 @@ body {
     min-height: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    padding: 24px 20px calc(28px + env(safe-area-inset-bottom));
     border-radius: 0;
     border-width: 0 0 1px;
     box-shadow: none;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .post-card:hover {
@@ -848,37 +1046,55 @@ body {
     box-shadow: none;
   }
 
-  /* Facts and title get room to breathe; actions sit in thumb reach. */
-  .post-title {
-    font-size: 1.75rem;
-    line-height: 1.2;
-  }
-
-  .post-desc {
-    font-size: 1rem;
-  }
-
-  .post-facts {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 8px;
+  /* The figures take the space a photo would, and everything else sits under. */
+  .post-media {
+    flex: 1;
+    min-height: 0;
+    padding: 20px 16px;
   }
 
   .fact {
-    padding: 14px 16px;
+    padding: 16px;
   }
 
   .fact dd {
-    font-size: 1.375rem;
-  }
-
-  .post-actions {
-    margin-top: auto;
-    padding-top: 20px;
+    font-size: 1.625rem;
   }
 
   .post-actions .btn {
-    padding: 14px 18px;
+    flex: 1;
+    padding: 13px 12px;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+
+  /* Prompt chips scroll sideways so they cost one row, not three. */
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: none;
+    max-width: 78vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Caption clamps to two lines; the full text lives in the dashboard. */
+  .post-caption p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.9rem;
   }
 
   /* The channel name already rides the stories row and each card's chip. */
@@ -939,6 +1155,15 @@ body {
     height: 100dvh;
     border-radius: 0;
     animation: drawer-in 0.22s ease;
+  }
+
+  .comments-sheet {
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: 460px;
+    height: min(640px, 84dvh);
+    border-radius: var(--r-xl);
+    animation: none;
   }
 
   @keyframes drawer-in {

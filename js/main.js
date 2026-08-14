@@ -4,6 +4,7 @@ import { CONFIG, isAuthConfigured } from '../config.js';
 import * as store from './store.js';
 import * as auth from './auth.js';
 import { initChat, openChat, closeChat } from './chat.js';
+import { initComments, openComments, closeComments, primeCounts } from './comments.js';
 import { renderStories, renderFeed, renderLoading, renderFeedError } from './feed.js';
 import { el, clear, show, hide, initials, displayNameFromEmail, toast } from './ui.js';
 
@@ -59,16 +60,22 @@ function renderAvatar(user) {
 function selectChannel(channelId) {
   activeChannel = channelId;
   const channels = store.getChannels(currentUser);
+  const posts = store.getPosts(activeChannel);
+
   renderStories(dom.stories, channels, activeChannel, { onSelect: selectChannel });
-  renderFeed(dom.feed, store.getPosts(activeChannel), store.getChannel(activeChannel), {
+  renderFeed(dom.feed, posts, store.getChannel(activeChannel), {
     channels,
     onAskClaude: (post, prompt) => openChat(post, prompt),
+    onOpenComments: (post) => openComments(post),
   });
-  dom.feed.scrollIntoView({ block: 'start', behavior: 'smooth' });
+
+  dom.feed.scrollTop = 0;
+  primeCounts(posts);
 }
 
 async function enterApp(user) {
   currentUser = user;
+  initComments({ preview: previewMode, user });
   hide(dom.gate);
   show(dom.app);
 
@@ -91,6 +98,7 @@ function handleSignOut() {
   auth.signOut();
   currentUser = null;
   closeChat();
+  closeComments();
   clear(dom.stories);
   clear(dom.feed);
   showGate('signin');

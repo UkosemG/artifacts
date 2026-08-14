@@ -48,6 +48,11 @@ export default {
       return handleChat(request, env, ctx, cors);
     }
 
+    if (url.pathname === '/comments') {
+      if (request.method === 'GET') return listComments(request, env, url, cors);
+      if (request.method === 'POST') return addComment(request, env, cors);
+    }
+
     return json({ error: 'not_found' }, 404, cors);
   },
 };
@@ -236,6 +241,119 @@ function rateLimit(email) {
 
   entry.count += 1;
   return entry.count <= RATE_LIMIT_MAX;
+}
+
+/* ---------- /comments ---------- */
+
+const MAX_COMMENT_CHARS = 1000;
+const MAX_COMMENTS_PER_POST = 200;
+const POST_ID_PATTERN = /^[A-Za-z0-9._:-]{1,128}$/;
+
+// Verifies the caller and returns their payload, or a Response to send back.
+async function requireUser(request, env, cors) {
+  const auth = request.headers.get('Authorization') || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
+  if (!token) {
+    return { error: json({ error: 'unauthorized', message: 'Missing bearer token.' }, 401, cors) };
+  }
+
+  try {
+    return { user: await verifyGoogleToken(token, env) };
+  } catch (error) {
+    const status = error.message === 'wrong_domain' ? 403 : 401;
+    return {
+      error: json({ error: error.message, message: 'Sign in again to continue.' }, status, cors),
+    };
+  }
+}
+
+function commentsUnavailable(cors) {
+  return json(
+    {
+      error: 'comments_not_configured',
+      message: 'Comment storage is not set up. Add the COMMENTS KV namespace (see SETUP.md).',
+    },
+    501,
+    cors
+  );
+}
+
+async function readThread(env, postId) {
+  const raw = await env.COMMENTS.get(`post:${postId}`);
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function listComments(request, env, url, cors) {
+  if (!env.COMMENTS) return commentsUnavailable(cors);
+
+  const postId = url.searchParams.get('post') || '';
+  if (!POST_ID_PATTERN.test(postId)) {
+    return json({ error: 'bad_request', message: 'Invalid post id.' }, 400, cors);
+  }
+
+  const { error } = await requireUser(request, env, cors);
+  if (error) return error;
+
+  return json({ comments: await readThread(env, postId) }, 200, cors);
+}
+
+async function addComment(request, env, cors) {
+  if (!env.COMMENTS) return commentsUnavailable(cors);
+
+  const { user, error } = await requireUser(request, env, cors);
+  if (error) return error;
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad_json', message: 'Request body must be valid JSON.' }, 400, cors);
+  }
+
+  const postId = String(body?.postId || '');
+  const text = String(body?.text || '').trim();
+
+  if (!POST_ID_PATTERN.test(postId)) {
+    return json({ error: 'bad_request', message: 'Invalid post id.' }, 400, cors);
+  }
+  if (!text) {
+    return json({ error: 'bad_request', message: 'Comment cannot be empty.' }, 400, cors);
+  }
+  if (text.length > MAX_COMMENT_CHARS) {
+    return json(
+      { error: 'bad_request', message: `Comments must be under ${MAX_COMMENT_CHARS} characters.` },
+      400,
+      cors
+    );
+  }
+  if (!rateLimit(user.email)) {
+    return json({ error: 'rate_limited', message: 'Slow down a moment.' }, 429, cors);
+  }
+
+  // Author identity comes from the verified token, never from the request body.
+  const comment = {
+    id: crypto.randomUUID(),
+    postId,
+    author: user.email,
+    name: user.name || user.email.split('@')[0],
+    text,
+    createdAt: new Date().toISOString(),
+  };
+
+  const thread = await readThread(env, postId);
+  thread.push(comment);
+  await env.COMMENTS.put(
+    `post:${postId}`,
+    JSON.stringify(thread.slice(-MAX_COMMENTS_PER_POST))
+  );
+
+  return json({ comment }, 201, cors);
 }
 
 /* ---------- /chat ---------- */
