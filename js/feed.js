@@ -49,7 +49,9 @@ export function renderStories(container, channels, activeId, { onSelect }) {
   }
 }
 
-// The headline figures, presented as the post's image.
+// The headline figures, presented as the post's image. The first fact leads at
+// display size — a phone screen should answer "how are we doing" from across the
+// room — and the rest sit under it as supporting numbers.
 function renderMedia(post) {
   const facts = post.facts || [];
 
@@ -59,17 +61,25 @@ function renderMedia(post) {
     ]);
   }
 
-  return el('div', { class: `post-media post-media--${Math.min(facts.length, 4)}` }, [
-    el(
-      'dl',
-      { class: 'post-facts' },
-      facts.map((fact) =>
-        el('div', { class: 'fact' }, [
-          el('dt', {}, [fact.label]),
-          el('dd', {}, [fact.value]),
-        ])
-      )
-    ),
+  const [hero, ...rest] = facts;
+
+  return el('div', { class: 'post-media' }, [
+    el('div', { class: 'hero-fact' }, [
+      el('p', { class: 'hero-label' }, [hero.label]),
+      el('p', { class: 'hero-value' }, [hero.value]),
+    ]),
+    rest.length
+      ? el(
+          'dl',
+          { class: `post-facts post-facts--${rest.length}` },
+          rest.map((fact) =>
+            el('div', { class: 'fact' }, [
+              el('dt', {}, [fact.label]),
+              el('dd', {}, [fact.value]),
+            ])
+          )
+        )
+      : null,
   ]);
 }
 
