@@ -73,6 +73,46 @@
       ]
     },
     {
+      "id": "2026-08-14-create-email-signup-tracker",
+      "channel": "create",
+      "title": "Email → Signup Tracker",
+      "description": "The early-access send from Aug 10, followed all the way through: delivery, clicks, and which signups on create.bria.ai are actually attributable to the email.",
+      "facts": [
+        { "label": "Send", "value": "Aug 10" },
+        { "label": "Variants", "value": "4 A/B" },
+        { "label": "Refresh", "value": "Hourly" },
+        { "label": "Sources", "value": "HubSpot + PostHog" }
+      ],
+      "artifactUrl": "https://claude.ai/code/artifact/6c35eca9-8268-4b38-909a-66eed45d19da",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-14T12:00:00Z",
+      "actions": [
+        "Which variant is winning, and is the gap real yet?",
+        "How many signups are genuinely attributable to the email?",
+        "Is anything worth changing before the next send?"
+      ]
+    },
+    {
+      "id": "2026-08-13-marketing-positioning-audit",
+      "channel": "marketing",
+      "title": "Create Positioning Evidence Audit",
+      "description": "Every checkable claim in the Create positioning doc (v1.7, Ad-First) run against Slack, Gong calls and Drive. Two claims come back false as lived customer experience.",
+      "facts": [
+        { "label": "Confirmed", "value": "5" },
+        { "label": "Contradicted", "value": "2" },
+        { "label": "Nuanced", "value": "3" },
+        { "label": "Claims checked", "value": "10" }
+      ],
+      "artifactUrl": "https://claude.ai/code/artifact/e69b23da-1ad0-4c71-abca-c0ed885c502f",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-13T15:00:00Z",
+      "actions": [
+        "Which two claims are contradicted, and what's the evidence?",
+        "What should change in v1.8 of the positioning doc?",
+        "Draft the rewrite for the claims that didn't survive."
+      ]
+    },
+    {
       "id": "2026-08-14-org-okr-snapshot",
       "channel": "org",
       "title": "Company OKR Snapshot — Q3",
