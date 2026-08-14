@@ -1,0 +1,3 @@
+# Copy to .dev.vars for local `wrangler dev`. Never commit .dev.vars —
+# it holds the real API key.
+ANTHROPIC_API_KEY=sk-ant-your-key-here

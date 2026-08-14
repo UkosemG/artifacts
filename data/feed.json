@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "channels": [
+    {
+      "id": "org",
+      "type": "org",
+      "name": "Bria",
+      "emoji": "🏛",
+      "description": "Company-wide dashboards and facts everyone should know.",
+      "order": 0
+    },
+    {
+      "id": "rnd",
+      "type": "bu",
+      "name": "R&D",
+      "emoji": "🧪",
+      "description": "Model quality, evals, infra and research velocity.",
+      "order": 1
+    },
+    {
+      "id": "gtm",
+      "type": "bu",
+      "name": "GTM",
+      "emoji": "📈",
+      "description": "Pipeline, revenue, customers and partnerships.",
+      "order": 2
+    },
+    {
+      "id": "marketing",
+      "type": "bu",
+      "name": "Marketing",
+      "emoji": "📣",
+      "description": "Demand, brand, content and developer community.",
+      "order": 3
+    },
+    {
+      "id": "u-amit",
+      "type": "personal",
+      "name": "Amit",
+      "emoji": "👤",
+      "owner": "amit@bria.ai",
+      "description": "Amit's personal working dashboards.",
+      "order": 10
+    }
+  ],
+  "posts": [
+    {
+      "id": "2026-08-14-org-okr-snapshot",
+      "channel": "org",
+      "title": "Company OKR Snapshot — Q3",
+      "description": "Where every company objective stands this quarter, with the two that need attention flagged at the top.",
+      "facts": [
+        { "label": "On track", "value": "6 of 9" },
+        { "label": "At risk", "value": "2" },
+        { "label": "Quarter", "value": "Q3 2026" },
+        { "label": "Refreshed", "value": "Weekly" }
+      ],
+      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-org-okr",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-14T09:00:00Z",
+      "actions": [
+        "Which objectives are at risk and what is the common cause?",
+        "Draft a short update for the leadership team on this quarter."
+      ]
+    },
+    {
+      "id": "2026-08-13-gtm-pipeline",
+      "channel": "gtm",
+      "title": "Q3 Pipeline Health",
+      "description": "Pipeline coverage by segment, stage conversion, and the deals that slipped out of the quarter.",
+      "facts": [
+        { "label": "Coverage", "value": "3.4x" },
+        { "label": "Slipped", "value": "5 deals" },
+        { "label": "Win rate", "value": "22%" },
+        { "label": "Refreshed", "value": "Daily" }
+      ],
+      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-gtm-pipeline",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-13T07:30:00Z",
+      "actions": [
+        "Summarize the biggest risk in this pipeline.",
+        "What changed versus last week?",
+        "Draft talking points for the pipeline review."
+      ]
+    },
+    {
+      "id": "2026-08-12-rnd-model-evals",
+      "channel": "rnd",
+      "title": "Model Eval Tracker",
+      "description": "Latest eval runs across image generation quality, safety and latency, compared to the previous release.",
+      "facts": [
+        { "label": "Runs", "value": "48 this week" },
+        { "label": "Quality", "value": "+3.1%" },
+        { "label": "p95 latency", "value": "1.9s" },
+        { "label": "Refreshed", "value": "Per run" }
+      ],
+      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-rnd-evals",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-12T16:10:00Z",
+      "actions": [
+        "Which eval regressed the most and why does it matter?",
+        "Explain these results to a non-technical stakeholder."
+      ]
+    },
+    {
+      "id": "2026-08-11-marketing-demand",
+      "channel": "marketing",
+      "title": "Demand & Developer Signups",
+      "description": "Traffic, signup conversion and developer activation across the last eight weeks.",
+      "facts": [
+        { "label": "Signups", "value": "1,240" },
+        { "label": "Activation", "value": "38%" },
+        { "label": "Top source", "value": "Docs" }
+      ],
+      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-marketing-demand",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-11T11:45:00Z",
+      "actions": [
+        "Where is the biggest drop-off in the signup funnel?",
+        "Suggest three experiments to lift activation."
+      ]
+    },
+    {
+      "id": "2026-08-10-amit-weekly",
+      "channel": "u-amit",
+      "title": "My Week in Numbers",
+      "description": "A personal working dashboard: decisions pending, follow-ups owed, and where my time actually went.",
+      "facts": [
+        { "label": "Decisions open", "value": "4" },
+        { "label": "Follow-ups", "value": "11" },
+        { "label": "Deep work", "value": "31%" }
+      ],
+      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-amit-weekly",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-10T06:00:00Z",
+      "actions": [
+        "What should I decide first this week?",
+        "Draft follow-up notes for the items I owe."
+      ]
+    }
+  ]
+}
