@@ -10,12 +10,20 @@
       "order": 0
     },
     {
+      "id": "create",
+      "type": "bu",
+      "name": "Bria Create",
+      "emoji": "🎨",
+      "description": "Product pulse for create.bria.ai — signups, active users and activation.",
+      "order": 1
+    },
+    {
       "id": "rnd",
       "type": "bu",
       "name": "R&D",
       "emoji": "🧪",
       "description": "Model quality, evals, infra and research velocity.",
-      "order": 1
+      "order": 2
     },
     {
       "id": "gtm",
@@ -23,7 +31,7 @@
       "name": "GTM",
       "emoji": "📈",
       "description": "Pipeline, revenue, customers and partnerships.",
-      "order": 2
+      "order": 3
     },
     {
       "id": "marketing",
@@ -31,7 +39,7 @@
       "name": "Marketing",
       "emoji": "📣",
       "description": "Demand, brand, content and developer community.",
-      "order": 3
+      "order": 4
     },
     {
       "id": "u-amit",
@@ -44,6 +52,26 @@
     }
   ],
   "posts": [
+    {
+      "id": "2026-08-14-create-weekly-pulse",
+      "channel": "create",
+      "title": "Bria Create Weekly Pulse",
+      "description": "Weekly signups and active users on create.bria.ai — everyone who registered, and everyone who took at least one product action. Bria staff excluded.",
+      "facts": [
+        { "label": "Weekly active", "value": "29" },
+        { "label": "Signups", "value": "14" },
+        { "label": "vs prior week", "value": "−2 / −2" },
+        { "label": "Week", "value": "Aug 3–9" }
+      ],
+      "artifactUrl": "https://claude.ai/code/artifact/9296a74b-849a-48da-886b-15b9e2663e91",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-14T18:00:00Z",
+      "actions": [
+        "Both signups and active users slipped last week — what's behind it?",
+        "The week of Aug 10 is tracking ahead. What changed?",
+        "Draft a short Create traction update for the team."
+      ]
+    },
     {
       "id": "2026-08-14-org-okr-snapshot",
       "channel": "org",
