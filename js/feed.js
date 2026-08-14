@@ -6,6 +6,114 @@
 
 import { el, clear, formatRelativeTime, initials, displayNameFromEmail } from './ui.js';
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function svg(tag, attrs = {}) {
+  const node = document.createElementNS(SVG_NS, tag);
+  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+  return node;
+}
+
+// A sparkline: one series, so no legend — the label above names it. The last point
+// is called out because it's the number the hero figure is about. Reading a value
+// off it is the dashboard's job, one tap away; this is the shape at a glance.
+function renderLineChart(chart) {
+  const values = (chart.values || []).filter((v) => Number.isFinite(v));
+  if (values.length < 2) return null;
+
+  const W = 300;
+  const H = 64;
+  const pad = 4;
+  const max = Math.max(...values, 1);
+  const stepX = (W - pad * 2) / (values.length - 1);
+  const y = (v) => pad + (H - pad * 2) * (1 - v / max);
+  const x = (i) => pad + stepX * i;
+
+  const points = values.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+  const solid = chart.partialLast ? points.slice(0, -1) : points;
+
+  const frame = svg('svg', {
+    class: 'spark',
+    viewBox: `0 0 ${W} ${H}`,
+    preserveAspectRatio: 'none',
+    role: 'img',
+    'aria-label': `${chart.label}, ${chart.from} to ${chart.to}. ${values.length} daily values, from ${values[0]} to ${values[values.length - 1]}, peaking at ${max}.`,
+  });
+
+  frame.append(
+    svg('path', {
+      class: 'spark-fill',
+      d: `M ${x(0)},${H - pad} L ${solid.join(' L ')} L ${x(solid.length - 1)},${H - pad} Z`,
+    }),
+    svg('path', { class: 'spark-line', d: `M ${solid.join(' L ')}` })
+  );
+
+  // The in-progress day is dashed, matching how the dashboard itself marks it.
+  if (chart.partialLast && points.length > 1) {
+    frame.append(
+      svg('path', {
+        class: 'spark-line spark-line--partial',
+        d: `M ${points[points.length - 2]} L ${points[points.length - 1]}`,
+      })
+    );
+  }
+
+  const lastIndex = values.length - 1;
+  frame.append(
+    svg('circle', { class: 'spark-dot', cx: x(lastIndex), cy: y(values[lastIndex]), r: 3.5 })
+  );
+
+  return el('figure', { class: 'chart' }, [
+    el('figcaption', { class: 'chart-label' }, [
+      chart.label,
+      el('span', { class: 'chart-range' }, [`${chart.from} – ${chart.to}`]),
+    ]),
+    frame,
+  ]);
+}
+
+// A part-to-whole bar. Segments are direct-labelled, so identity never rests on
+// colour alone — which is also what keeps the tones legible to colourblind readers.
+function renderProportionChart(chart) {
+  const segments = (chart.segments || []).filter((s) => Number.isFinite(s.value) && s.value > 0);
+  if (segments.length === 0) return null;
+
+  const total = segments.reduce((sum, s) => sum + s.value, 0);
+
+  return el('figure', { class: 'chart' }, [
+    el('figcaption', { class: 'chart-label' }, [chart.label]),
+    el(
+      'div',
+      { class: 'proportion', role: 'img', 'aria-label': segments.map((s) => `${s.label} ${s.value} of ${total}`).join(', ') },
+      segments.map((s) =>
+        el('span', {
+          class: `proportion-seg proportion-seg--${s.tone}`,
+          style: `flex-grow:${s.value}`,
+          title: `${s.label}: ${s.value} of ${total}`,
+        })
+      )
+    ),
+    el(
+      'ul',
+      { class: 'proportion-key' },
+      segments.map((s) =>
+        el('li', {}, [
+          el('span', { class: `key-dot key-dot--${s.tone}`, 'aria-hidden': 'true' }),
+          `${s.label} ${s.value}`,
+        ])
+      )
+    ),
+  ]);
+}
+
+function renderChart(post) {
+  const chart = post.chart;
+  if (!chart) return null;
+  if (chart.type === 'line') return renderLineChart(chart);
+  if (chart.type === 'proportion') return renderProportionChart(chart);
+  return null;
+}
+
 export function renderStories(container, channels, activeId, { onSelect }) {
   clear(container);
 
@@ -68,6 +176,7 @@ function renderMedia(post) {
       el('p', { class: 'hero-label' }, [hero.label]),
       el('p', { class: 'hero-value' }, [hero.value]),
     ]),
+    renderChart(post),
     rest.length
       ? el(
           'dl',
@@ -80,6 +189,7 @@ function renderMedia(post) {
           )
         )
       : null,
+    post.source ? el('p', { class: 'post-source' }, [post.source]) : null,
   ]);
 }
 
