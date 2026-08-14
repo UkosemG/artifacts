@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "_note": "Every figure here must come from the dashboard it links to. If a number isn't in the artifact, leave it out — an empty card is better than a wrong one.",
   "channels": [
     {
       "id": "org",
@@ -63,6 +64,19 @@
         { "label": "vs prior week", "value": "−2 / −2" },
         { "label": "Week", "value": "Aug 3–9" }
       ],
+      "chart": {
+        "type": "line",
+        "label": "Daily active users",
+        "from": "Jun 14",
+        "to": "Aug 14",
+        "partialLast": true,
+        "values": [
+          5, 2, 4, 2, 3, 1, 1, 2, 3, 5, 3, 2, 2, 2, 0, 3, 7,
+          1, 3, 5, 0, 2, 3, 4, 5, 2, 2, 1, 2, 2, 3, 2, 2, 2, 1, 2, 3, 8, 3, 8, 7, 0, 5, 6, 7, 10, 7, 4,
+          5, 7, 8, 13, 16, 8, 5, 5, 4, 13, 10, 9, 7, 4
+        ]
+      },
+      "source": "PostHog · create.bria.ai · @bria.ai excluded",
       "artifactUrl": "https://claude.ai/code/artifact/9296a74b-849a-48da-886b-15b9e2663e91",
       "author": "amit@bria.ai",
       "publishedAt": "2026-08-14T18:00:00Z",
@@ -80,9 +94,9 @@
       "facts": [
         { "label": "Send", "value": "Aug 10" },
         { "label": "Variants", "value": "4 A/B" },
-        { "label": "Refresh", "value": "Hourly" },
-        { "label": "Sources", "value": "HubSpot + PostHog" }
+        { "label": "Refresh", "value": "Hourly" }
       ],
+      "source": "HubSpot + PostHog · figures computed live",
       "artifactUrl": "https://claude.ai/code/artifact/6c35eca9-8268-4b38-909a-66eed45d19da",
       "author": "amit@bria.ai",
       "publishedAt": "2026-08-14T12:00:00Z",
@@ -98,11 +112,21 @@
       "title": "Create Positioning Evidence Audit",
       "description": "Every checkable claim in the Create positioning doc (v1.7, Ad-First) run against Slack, Gong calls and Drive. Two claims come back false as lived customer experience.",
       "facts": [
+        { "label": "Claims checked", "value": "10" },
         { "label": "Confirmed", "value": "5" },
         { "label": "Contradicted", "value": "2" },
-        { "label": "Nuanced", "value": "3" },
-        { "label": "Claims checked", "value": "10" }
+        { "label": "Nuanced", "value": "3" }
       ],
+      "chart": {
+        "type": "proportion",
+        "label": "How the 10 claims held up",
+        "segments": [
+          { "label": "Confirmed", "value": 5, "tone": "good" },
+          { "label": "Nuanced", "value": 3, "tone": "partial" },
+          { "label": "Contradicted", "value": 2, "tone": "bad" }
+        ]
+      },
+      "source": "Slack, Gong/HubSpot, Drive · audited 13 Aug 2026",
       "artifactUrl": "https://claude.ai/code/artifact/e69b23da-1ad0-4c71-abca-c0ed885c502f",
       "author": "amit@bria.ai",
       "publishedAt": "2026-08-13T15:00:00Z",
@@ -110,100 +134,6 @@
         "Which two claims are contradicted, and what's the evidence?",
         "What should change in v1.8 of the positioning doc?",
         "Draft the rewrite for the claims that didn't survive."
-      ]
-    },
-    {
-      "id": "2026-08-14-org-okr-snapshot",
-      "channel": "org",
-      "title": "Company OKR Snapshot — Q3",
-      "description": "Where every company objective stands this quarter, with the two that need attention flagged at the top.",
-      "facts": [
-        { "label": "On track", "value": "6 of 9" },
-        { "label": "At risk", "value": "2" },
-        { "label": "Quarter", "value": "Q3 2026" },
-        { "label": "Refreshed", "value": "Weekly" }
-      ],
-      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-org-okr",
-      "author": "amit@bria.ai",
-      "publishedAt": "2026-08-14T09:00:00Z",
-      "actions": [
-        "Which objectives are at risk and what is the common cause?",
-        "Draft a short update for the leadership team on this quarter."
-      ]
-    },
-    {
-      "id": "2026-08-13-gtm-pipeline",
-      "channel": "gtm",
-      "title": "Q3 Pipeline Health",
-      "description": "Pipeline coverage by segment, stage conversion, and the deals that slipped out of the quarter.",
-      "facts": [
-        { "label": "Coverage", "value": "3.4x" },
-        { "label": "Slipped", "value": "5 deals" },
-        { "label": "Win rate", "value": "22%" },
-        { "label": "Refreshed", "value": "Daily" }
-      ],
-      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-gtm-pipeline",
-      "author": "amit@bria.ai",
-      "publishedAt": "2026-08-13T07:30:00Z",
-      "actions": [
-        "Summarize the biggest risk in this pipeline.",
-        "What changed versus last week?",
-        "Draft talking points for the pipeline review."
-      ]
-    },
-    {
-      "id": "2026-08-12-rnd-model-evals",
-      "channel": "rnd",
-      "title": "Model Eval Tracker",
-      "description": "Latest eval runs across image generation quality, safety and latency, compared to the previous release.",
-      "facts": [
-        { "label": "Runs", "value": "48 this week" },
-        { "label": "Quality", "value": "+3.1%" },
-        { "label": "p95 latency", "value": "1.9s" },
-        { "label": "Refreshed", "value": "Per run" }
-      ],
-      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-rnd-evals",
-      "author": "amit@bria.ai",
-      "publishedAt": "2026-08-12T16:10:00Z",
-      "actions": [
-        "Which eval regressed the most and why does it matter?",
-        "Explain these results to a non-technical stakeholder."
-      ]
-    },
-    {
-      "id": "2026-08-11-marketing-demand",
-      "channel": "marketing",
-      "title": "Demand & Developer Signups",
-      "description": "Traffic, signup conversion and developer activation across the last eight weeks.",
-      "facts": [
-        { "label": "Signups", "value": "1,240" },
-        { "label": "Activation", "value": "38%" },
-        { "label": "Top source", "value": "Docs" }
-      ],
-      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-marketing-demand",
-      "author": "amit@bria.ai",
-      "publishedAt": "2026-08-11T11:45:00Z",
-      "actions": [
-        "Where is the biggest drop-off in the signup funnel?",
-        "Suggest three experiments to lift activation."
-      ]
-    },
-    {
-      "id": "2026-08-10-amit-weekly",
-      "channel": "u-amit",
-      "title": "My Week in Numbers",
-      "description": "A personal working dashboard: decisions pending, follow-ups owed, and where my time actually went.",
-      "facts": [
-        { "label": "Decisions open", "value": "4" },
-        { "label": "Follow-ups", "value": "11" },
-        { "label": "Deep work", "value": "31%" }
-      ],
-      "artifactUrl": "https://claude.ai/artifacts/PLACEHOLDER-amit-weekly",
-      "author": "amit@bria.ai",
-      "publishedAt": "2026-08-10T06:00:00Z",
-      "actions": [
-        "What should I decide first this week?",
-        "Draft follow-up notes for the items I owe."
       ]
     }
   ]

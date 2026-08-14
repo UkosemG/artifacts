@@ -47,6 +47,39 @@ function normalizeFacts(raw) {
     .map((f) => ({ label: String(f.label ?? ''), value: String(f.value ?? '') }));
 }
 
+// Charts are only rendered from data that's actually present and numeric —
+// a malformed chart is dropped rather than drawn from partial values.
+function normalizeChart(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+
+  if (raw.type === 'line') {
+    const values = Array.isArray(raw.values) ? raw.values.filter(Number.isFinite) : [];
+    if (values.length < 2) return null;
+    return {
+      type: 'line',
+      label: String(raw.label || ''),
+      from: String(raw.from || ''),
+      to: String(raw.to || ''),
+      partialLast: raw.partialLast === true,
+      values,
+    };
+  }
+
+  if (raw.type === 'proportion') {
+    const segments = (Array.isArray(raw.segments) ? raw.segments : [])
+      .filter((s) => s && Number.isFinite(s.value) && s.value > 0)
+      .map((s) => ({
+        label: String(s.label || ''),
+        value: s.value,
+        tone: ['good', 'partial', 'bad'].includes(s.tone) ? s.tone : 'partial',
+      }));
+    if (segments.length === 0) return null;
+    return { type: 'proportion', label: String(raw.label || ''), segments };
+  }
+
+  return null;
+}
+
 function normalizePost(raw, knownChannelIds, index) {
   if (!raw || typeof raw !== 'object') return null;
 
@@ -67,11 +100,14 @@ function normalizePost(raw, knownChannelIds, index) {
     title,
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: normalizeFacts(raw.facts),
+    chart: normalizeChart(raw.chart),
+    // Where the numbers came from, shown on the card.
+    source: typeof raw.source === 'string' ? raw.source : '',
     artifactUrl: typeof raw.artifactUrl === 'string' ? raw.artifactUrl : '',
     author: typeof raw.author === 'string' ? raw.author : '',
     publishedAt: typeof raw.publishedAt === 'string' ? raw.publishedAt : '',
     actions,
-    source: 'feed',
+    origin: 'feed',
   };
 }
 
@@ -92,7 +128,8 @@ function artifactToPost(raw, index) {
     author: '',
     publishedAt: typeof raw.addedAt === 'string' ? raw.addedAt : '',
     actions: [],
-    source: 'artifacts',
+    source: '',
+    origin: 'artifacts',
   };
 }
 
