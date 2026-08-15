@@ -262,6 +262,9 @@ function renderCard(post, channel, handlers) {
 
   const actions = [];
   if (post.artifactUrl) {
+    // Dashboards live on claude.ai; anything else is original content — a blog
+    // post, a LinkedIn post — and the button should say where the tap goes.
+    const isDashboard = post.artifactUrl.includes('claude.ai');
     actions.push(
       el(
         'a',
@@ -271,7 +274,7 @@ function renderCard(post, channel, handlers) {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
-        ['Open dashboard ↗']
+        [isDashboard ? 'Open dashboard ↗' : 'Open post ↗']
       )
     );
   }

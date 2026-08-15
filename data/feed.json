@@ -67,9 +67,212 @@
       "emoji": "💬",
       "description": "What customers actually said — support, churn reasons, evaluation blockers.",
       "order": 6
+    },
+    {
+      "id": "perf",
+      "type": "bu",
+      "name": "Performance",
+      "emoji": "🎯",
+      "description": "Paid acquisition across every channel — what it brings in, and what it costs once spend is connected.",
+      "order": 7
+    },
+    {
+      "id": "organic",
+      "type": "bu",
+      "name": "Organic Media",
+      "emoji": "🌱",
+      "description": "Bria's own posts and content — every card links to the original.",
+      "order": 8
     }
   ],
   "posts": [
+    {
+      "id": "2026-08-15-perf-acquisition-mix",
+      "channel": "perf",
+      "level": "function",
+      "title": "Where New Contacts Come From",
+      "description": "Original-source attribution for everyone who arrived since July. Among contacts the web can attribute, paid is nearly half — and no ad platform is connected to any system, so the biggest channel runs with no visible cost. Most signups arrive by API and never touch attribution at all.",
+      "facts": [
+        {
+          "label": "Paid share of attributed",
+          "value": "46%"
+        },
+        {
+          "label": "Attributed contacts",
+          "value": "2300"
+        },
+        {
+          "label": "Ad platforms connected",
+          "value": "0"
+        },
+        {
+          "label": "Since",
+          "value": "Jul 1"
+        }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "Attributed contacts by channel group",
+        "segments": [
+          {
+            "label": "Paid",
+            "value": 1048,
+            "tone": "bad"
+          },
+          {
+            "label": "Direct and referral",
+            "value": 892,
+            "tone": "partial"
+          },
+          {
+            "label": "Organic",
+            "value": 360,
+            "tone": "good"
+          }
+        ]
+      },
+      "source": "HubSpot original source · computed 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/27c9a611-ade8-430e-99ee-30236254c68c",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T14:26:44Z",
+      "actions": [
+        "What would it take to see cost per contact by channel?",
+        "Why are most new contacts unattributed, and does it matter?",
+        "Which paid campaigns are behind the paid-search number?"
+      ]
+    },
+    {
+      "id": "2026-08-15-organic-engine",
+      "channel": "organic",
+      "level": "function",
+      "title": "The Organic Engine",
+      "description": "What Bria's own content actually does. One post carries the channel: OBS background removal converts 14% of readers into form fills. LinkedIn and X distribution is happening — the UTM crumbs prove it — but no social platform is connected, so those posts can't be listed here yet.",
+      "facts": [
+        {
+          "label": "Top post form rate",
+          "value": "14%"
+        },
+        {
+          "label": "Contacts from one post",
+          "value": "107"
+        },
+        {
+          "label": "Organic search contacts",
+          "value": "349"
+        },
+        {
+          "label": "Social platforms wired",
+          "value": "0"
+        }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "Blog views since Jul 1, top posts",
+        "segments": [
+          {
+            "label": "OBS removal",
+            "value": 1048,
+            "tone": "good"
+          },
+          {
+            "label": "Nuke",
+            "value": 207,
+            "tone": "partial"
+          },
+          {
+            "label": "All other",
+            "value": 300,
+            "tone": "bad"
+          }
+        ]
+      },
+      "source": "HubSpot page analytics · computed 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/27c9a611-ade8-430e-99ee-30236254c68c",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T14:41:44Z",
+      "actions": [
+        "What makes the OBS post convert so much better than the rest?",
+        "What should the next three posts be, on this evidence?",
+        "How do we get LinkedIn and X posts into this channel?"
+      ]
+    },
+    {
+      "id": "2026-08-15-organic-obs-post",
+      "channel": "organic",
+      "level": "team",
+      "title": "Background Removal for OBS",
+      "description": "The best-performing piece of content Bria has: a concrete tool for a creator audience. Tap through to read the original post.",
+      "facts": [
+        {
+          "label": "Views since Jul 1",
+          "value": "1048"
+        },
+        {
+          "label": "Form fills",
+          "value": "148"
+        },
+        {
+          "label": "Became contacts",
+          "value": "107"
+        }
+      ],
+      "source": "HubSpot page analytics · 15 Aug 2026",
+      "artifactUrl": "https://bria.ai/blog/background-removal-for-obs",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T14:56:44Z",
+      "actions": [
+        "Why does this post convert at 14% when nothing else does?",
+        "Draft the next post in this exact shape."
+      ]
+    },
+    {
+      "id": "2026-08-15-organic-nuke-post",
+      "channel": "organic",
+      "level": "team",
+      "title": "Generative AI Natively in Nuke",
+      "description": "Second-most-read post since July — the M&E integration story, distributed through the Nuke campaign on LinkedIn. Tap through to the original.",
+      "facts": [
+        {
+          "label": "Views since Jul 1",
+          "value": "207"
+        },
+        {
+          "label": "Became contacts",
+          "value": "8"
+        }
+      ],
+      "source": "HubSpot page analytics · 15 Aug 2026",
+      "artifactUrl": "https://bria.ai/blog/bringing-generative-ai-into-nuke-natively",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T15:06:44Z",
+      "actions": [
+        "Readers aren't converting here the way OBS readers do — why?"
+      ]
+    },
+    {
+      "id": "2026-08-15-organic-eu-ai-act-post",
+      "channel": "organic",
+      "level": "team",
+      "title": "Article 50 of the EU AI Act",
+      "description": "The compliance explainer, published days before the August 2 deadline it covers. Read, but converting nobody — there is no next step on the page. Tap through to the original.",
+      "facts": [
+        {
+          "label": "Views since Jul 1",
+          "value": "104"
+        },
+        {
+          "label": "Became contacts",
+          "value": "0"
+        }
+      ],
+      "source": "HubSpot page analytics · 15 Aug 2026",
+      "artifactUrl": "https://bria.ai/blog/article-50-of-the-eu-ai-act-what-enterprises-need-to-change-before-august-2-2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T15:16:44Z",
+      "actions": [
+        "What call to action belongs on a compliance post like this?"
+      ]
+    },
     {
       "id": "2026-08-15-bugs-ticket-resolution",
       "channel": "bugs",
