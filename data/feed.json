@@ -1,6 +1,7 @@
 {
   "version": 1,
   "_note": "Every figure here must come from the dashboard it links to. If a number isn't in the artifact, leave it out — an empty card is better than a wrong one.",
+  "_public": "This repo is PUBLIC, so this file is world-readable. Never put revenue, targets, pipeline, deal sizes or customer names in a card. Those belong in the Claude artifact, where access is controlled. Cards carry counts, cadence and dates only.",
   "channels": [
     {
       "id": "org",
@@ -53,6 +54,36 @@
     }
   ],
   "posts": [
+    {
+      "id": "2026-08-15-org-h2-target-waterfall",
+      "channel": "org",
+      "title": "H2 Target Waterfall",
+      "description": "What H2 committed to, what has actually landed, and the gap between them — rebuilt from HubSpot and PostHog. Seven categories to check every morning, each with the dashboard that answers it and the one action it triggers. The figures live in the dashboard, not here.",
+      "facts": [
+        { "label": "Days left in H2", "value": "138" },
+        { "label": "Daily checks", "value": "7" },
+        { "label": "Initiatives", "value": "20" },
+        { "label": "H2 elapsed", "value": "25%" }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "H2 initiatives by status",
+        "segments": [
+          { "label": "In progress", "value": 13, "tone": "good" },
+          { "label": "Not started", "value": 5, "tone": "bad" },
+          { "label": "Planning", "value": 2, "tone": "partial" }
+        ]
+      },
+      "source": "HubSpot, PostHog & Drive · snapshot 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/aabfebd1-eb03-46ad-befe-78187872ae59",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T07:00:00Z",
+      "actions": [
+        "Which of the seven categories is furthest off track today?",
+        "What single action closes the most of the gap this week?",
+        "Rebuild today's numbers from HubSpot and PostHog."
+      ]
+    },
     {
       "id": "2026-08-14-create-weekly-pulse",
       "channel": "create",
