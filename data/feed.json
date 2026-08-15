@@ -55,6 +55,36 @@
   ],
   "posts": [
     {
+      "id": "2026-08-15-org-h2-arithmetic",
+      "channel": "org",
+      "title": "The H2 Arithmetic",
+      "description": "A forecast of H2 built from Bria's own win rates rather than from the plan. Three priorities carry the half, ten functions have one ask each — quoted from their own H2 Readiness commitments — and one decision needs settling by 29 August. The numbers live in the dashboard.",
+      "facts": [
+        { "label": "Decision due", "value": "29 Aug" },
+        { "label": "Priorities", "value": "3" },
+        { "label": "Functions", "value": "10" },
+        { "label": "Tripwires", "value": "5" }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "When each function's ask lands",
+        "segments": [
+          { "label": "By 22 Aug", "value": 2, "tone": "bad" },
+          { "label": "By 31 Aug", "value": 4, "tone": "partial" },
+          { "label": "September", "value": 3, "tone": "good" }
+        ]
+      },
+      "source": "HubSpot 2026 YTD + H2 Readiness · 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/adb26255-9156-4bc3-8b06-8a282a2fd672",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T11:00:00Z",
+      "actions": [
+        "What has to be true for the 29 August decision to go either way?",
+        "What is my function's ask this month, and where did it come from?",
+        "Which tripwire is closest to firing right now?"
+      ]
+    },
+    {
       "id": "2026-08-15-org-h2-target-waterfall",
       "channel": "org",
       "title": "H2 Target Waterfall",
