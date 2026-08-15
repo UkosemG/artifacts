@@ -10,7 +10,6 @@ import {
 } from './feed.js';
 import { el, clear, show, hide, initials, displayNameFromEmail, toast } from './ui.js';
 
-const VIEW_KEY = 'briafeed.view.v1';
 const LEVEL_KEY = 'briafeed.level.v1';
 
 const dom = {};
@@ -18,9 +17,12 @@ let currentUser = null;
 let activeChannel = 'all';
 let dataReady = null;
 let previewMode = false;
-// Grid opens first: it answers "what's here" in one screen, where the reel
-// shows one post and makes you scroll to find anything.
-let view = 'grid';
+// The grid is the app. 'post' is the tap-through detail — the reel rendering,
+// entered from a tile and left with the back bar.
+let mode = 'grid';
+// Where the grid was scrolled to when a post was opened, so back returns there.
+let gridScroll = null;
+let openPostId = null;
 // All levels by default — narrowing is a choice the reader makes.
 let activeLevel = 'all';
 
@@ -33,8 +35,8 @@ function cacheDom() {
   dom.stories = document.getElementById('stories');
   dom.feed = document.getElementById('feed');
   dom.levels = document.getElementById('levels');
-  dom.tabGrid = document.getElementById('tab-grid');
-  dom.tabReel = document.getElementById('tab-reel');
+  dom.postNav = document.getElementById('post-nav');
+  dom.postBack = document.getElementById('post-back');
   dom.topbarUser = document.getElementById('topbar-user');
   dom.signout = document.getElementById('signout-btn');
 }
@@ -70,21 +72,23 @@ function renderAvatar(user) {
   }
 }
 
-function renderCurrentView({ scrollToPostId } = {}) {
+function renderCurrentView({ scrollToPostId, restoreScroll } = {}) {
   const channels = store.getChannels(currentUser);
   const posts = store.getPosts(activeChannel, activeLevel, currentUser);
   const channel = store.getChannel(activeChannel);
-  const isGrid = view === 'grid';
+  const isGrid = mode === 'grid';
 
   renderStories(dom.stories, channels, activeChannel, { onSelect: selectChannel });
   renderLevels(dom.levels, store.countByLevel(activeChannel, currentUser), activeLevel, {
     onSelect: selectLevel,
   });
 
+  // Class toggle must precede the scroll work below: .feed--grid disables the
+  // reel's scroll snapping, and a restored scrollTop set while snapping is
+  // still active would be re-quantized to the nearest card.
   dom.feed.classList.toggle('feed--grid', isGrid);
   dom.feed.classList.toggle('feed--reel', !isGrid);
-  dom.tabGrid.setAttribute('aria-pressed', String(isGrid));
-  dom.tabReel.setAttribute('aria-pressed', String(!isGrid));
+  dom.postNav.hidden = isGrid;
 
   if (isGrid) {
     renderGrid(dom.feed, posts, channel, { channels, onOpenPost: openPost });
@@ -99,7 +103,22 @@ function renderCurrentView({ scrollToPostId } = {}) {
   if (scrollToPostId) {
     const card = dom.feed.querySelector(`[data-post-id="${CSS.escape(scrollToPostId)}"]`);
     // One frame, so the snap container has laid out before we jump to the card.
-    if (card) requestAnimationFrame(() => card.scrollIntoView({ block: 'start' }));
+    // Focus lands on the card first (preventScroll, so scrollIntoView stays
+    // authoritative) — a screen reader announces the post, and the back bar is
+    // the immediately preceding tab stop.
+    if (card) {
+      requestAnimationFrame(() => {
+        card.setAttribute('tabindex', '-1');
+        card.focus({ preventScroll: true });
+        card.scrollIntoView({ block: 'start' });
+      });
+    }
+  } else if (restoreScroll) {
+    // Mobile scrolls #feed; desktop scrolls the page. The inactive one is 0.
+    requestAnimationFrame(() => {
+      dom.feed.scrollTop = restoreScroll.feedTop;
+      window.scrollTo(0, restoreScroll.winY);
+    });
   } else {
     dom.feed.scrollTop = 0;
   }
@@ -109,11 +128,17 @@ function renderCurrentView({ scrollToPostId } = {}) {
 }
 
 function selectChannel(channelId) {
+  // Filters are browse tools: changing one while reading a post drops back to
+  // the grid — a saved scroll offset is meaningless against a different set.
+  mode = 'grid';
+  gridScroll = null;
   activeChannel = channelId;
   renderCurrentView();
 }
 
 function selectLevel(level) {
+  mode = 'grid';
+  gridScroll = null;
   activeLevel = level;
   try {
     localStorage.setItem(LEVEL_KEY, level);
@@ -123,20 +148,26 @@ function selectLevel(level) {
   renderCurrentView();
 }
 
-function setView(next, opts) {
-  if (next !== 'grid' && next !== 'reel') return;
-  view = next;
-  try {
-    localStorage.setItem(VIEW_KEY, view);
-  } catch {
-    /* private browsing — the choice just won't survive a reload */
-  }
-  renderCurrentView(opts);
-}
-
 // Tapping a tile is how you get from the index to the post.
 function openPost(post) {
-  setView('reel', { scrollToPostId: post.id });
+  gridScroll = { feedTop: dom.feed.scrollTop, winY: window.scrollY };
+  openPostId = post.id;
+  mode = 'post';
+  renderCurrentView({ scrollToPostId: post.id });
+}
+
+function closePost() {
+  if (mode !== 'post') return;
+  mode = 'grid';
+  renderCurrentView({ restoreScroll: gridScroll });
+  // Focus returns to the tile that opened the post, like closing a dialog.
+  const id = openPostId;
+  requestAnimationFrame(() => {
+    const tile = id && dom.feed.querySelector(`[data-tile-for="${CSS.escape(id)}"]`);
+    if (tile) tile.focus({ preventScroll: true });
+  });
+  gridScroll = null;
+  openPostId = null;
 }
 
 async function enterApp(user) {
@@ -157,6 +188,9 @@ async function enterApp(user) {
   }
 
   activeChannel = 'all';
+  mode = 'grid';
+  gridScroll = null;
+  openPostId = null;
   selectChannel(activeChannel);
 }
 
@@ -186,16 +220,23 @@ async function boot() {
   });
 
   try {
-    const saved = localStorage.getItem(VIEW_KEY);
-    if (saved === 'grid' || saved === 'reel') view = saved;
     const level = localStorage.getItem(LEVEL_KEY);
     if (level === 'all' || store.LEVELS.includes(level)) activeLevel = level;
+    // The old grid/reel preference is gone; clean up the orphaned key.
+    localStorage.removeItem('briafeed.view.v1');
   } catch {
     /* private browsing — fall back to the defaults */
   }
 
-  dom.tabGrid.addEventListener('click', () => setView('grid'));
-  dom.tabReel.addEventListener('click', () => setView('reel'));
+  dom.postBack.addEventListener('click', closePost);
+  // Escape leaves the post view — but chat and comments register their own
+  // document-level Escape closers, and one press must not close two layers.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || mode !== 'post') return;
+    const chatOpen = !document.getElementById('chat-panel')?.hidden;
+    const commentsOpen = !document.getElementById('comments-sheet')?.hidden;
+    if (!chatOpen && !commentsOpen) closePost();
+  });
   dom.signout.addEventListener('click', handleSignOut);
   dom.gateRetry.addEventListener('click', () => {
     auth.disableAutoSelect();

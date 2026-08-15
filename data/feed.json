@@ -71,6 +71,116 @@
   ],
   "posts": [
     {
+      "id": "2026-08-15-bugs-ticket-resolution",
+      "channel": "bugs",
+      "level": "team",
+      "title": "Ticket Resolution",
+      "description": "How long a support ticket waits, computed from every usable close this year. The trend is genuinely improving — early-May medians above a week, August around two days — but a third of tickets still take over a week, and the oldest open one is a customer mid-evaluation.",
+      "facts": [
+        {
+          "label": "Median days",
+          "value": "4.8"
+        },
+        {
+          "label": "August median",
+          "value": "2.1"
+        },
+        {
+          "label": "Within a week",
+          "value": "63%"
+        },
+        {
+          "label": "Oldest open",
+          "value": "23d"
+        }
+      ],
+      "chart": {
+        "type": "line",
+        "label": "Weekly median days to resolution",
+        "from": "May 4",
+        "to": "Aug 14",
+        "partialLast": true,
+        "values": [
+          10.3,
+          5.5,
+          8.7,
+          7.4,
+          3.2,
+          1.7,
+          4.0,
+          4.7,
+          5.9,
+          2.9,
+          1.9,
+          2.4
+        ]
+      },
+      "source": "HubSpot support tickets · computed 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/bdc8e966-972e-4e99-97ac-de231366855c",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T09:26:35Z",
+      "actions": [
+        "What is driving the over-a-week tail?",
+        "Which open tickets are oldest right now, and who is waiting?",
+        "Draft an SLA proposal from this baseline."
+      ]
+    },
+    {
+      "id": "2026-08-15-gtm-deal-velocity",
+      "channel": "gtm",
+      "level": "function",
+      "title": "Deal Velocity",
+      "description": "How long a new-business win takes from the deal being opened to closed won, this year. Seven records where the close predates the create are excluded and named in the dashboard — what remains measures the sales motion, not the data entry. The fast cluster is Create POCs.",
+      "facts": [
+        {
+          "label": "Median days",
+          "value": "32"
+        },
+        {
+          "label": "Wins measured",
+          "value": "24"
+        },
+        {
+          "label": "Under 30 days",
+          "value": "10"
+        },
+        {
+          "label": "Slowest",
+          "value": "146d"
+        }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "How long the wins took",
+        "segments": [
+          {
+            "label": "Under 30d",
+            "value": 10,
+            "tone": "good"
+          },
+          {
+            "label": "30-90d",
+            "value": 11,
+            "tone": "partial"
+          },
+          {
+            "label": "Over 90d",
+            "value": 3,
+            "tone": "bad"
+          }
+        ]
+      },
+      "source": "HubSpot closed-won deals · computed 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/bdc8e966-972e-4e99-97ac-de231366855c",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T09:41:35Z",
+      "actions": [
+        "What is in the over-90-day tail, and what stalled it?",
+        "How would we cut the median in half?",
+        "Which current open evaluations are adding days right now?"
+      ]
+    },
+    {
       "id": "2026-08-15-bugs-open-queue",
       "channel": "bugs",
       "level": "team",

@@ -23,7 +23,7 @@ python3 -m http.server 8000
 ## Layout
 
 ```
-index.html        app shell: sign-in gate, feed, chat panel
+index.html        app shell: sign-in gate, tile grid (tap a tile → post view), chat panel
 style.css         Bria design system tokens, mobile-first
 config.js         GOOGLE_CLIENT_ID / CHAT_PROXY_URL / ALLOWED_DOMAIN  ← fill these in
 js/               main.js (boot) · auth.js · store.js · feed.js · chat.js · ui.js

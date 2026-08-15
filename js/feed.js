@@ -37,7 +37,7 @@ function renderLineChart(chart) {
     viewBox: `0 0 ${W} ${H}`,
     preserveAspectRatio: 'none',
     role: 'img',
-    'aria-label': `${chart.label}, ${chart.from} to ${chart.to}. ${values.length} daily values, from ${values[0]} to ${values[values.length - 1]}, peaking at ${max}.`,
+    'aria-label': `${chart.label}, ${chart.from} to ${chart.to}. ${values.length} values, from ${values[0]} to ${values[values.length - 1]}, peaking at ${max}.`,
   });
 
   frame.append(

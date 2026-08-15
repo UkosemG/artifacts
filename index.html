@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Versioned: this path served a different stylesheet on the old site, so a bare
        ./style.css comes back from cache. Bump ?v= whenever the CSS changes shape. -->
-  <link rel="stylesheet" href="./style.css?v=2" />
+  <link rel="stylesheet" href="./style.css?v=3" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%232E2930'/><text x='16' y='22' font-family='sans-serif' font-size='14' font-weight='600' fill='%23FEFCFD' text-anchor='middle'>B</text></svg>" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -52,21 +52,13 @@
 
     <nav class="stories" id="stories" aria-label="Channels"></nav>
 
-    <!-- Grid is the index, reel is the read. Same posts, two densities. -->
-    <div class="view-tabs" id="view-tabs" role="group" aria-label="View">
-      <button type="button" class="view-tab" id="tab-grid" aria-pressed="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M9 3v18M15 3v18M3 9h18M3 15h18" />
+    <!-- The grid is the app; this bar only exists inside an opened post. -->
+    <div class="post-nav" id="post-nav" hidden>
+      <button type="button" class="post-back" id="post-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+          <path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Grid
-      </button>
-      <button type="button" class="view-tab" id="tab-reel" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
-          <rect x="5" y="3" width="14" height="18" rx="2" />
-          <path d="M10.6 9.4 15 12l-4.4 2.6z" fill="currentColor" stroke-linejoin="round" />
-        </svg>
-        Reel
+        Back to grid
       </button>
     </div>
 

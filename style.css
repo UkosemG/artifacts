@@ -1276,50 +1276,45 @@ body {
 .level-badge--team { background: #e1f0e8; color: #14432b; }
 .level-badge--me { background: var(--ink); color: var(--text-light); }
 
-/* ---------- View toggle + grid ---------- */
+/* ---------- Post view chrome + grid ---------- */
 
-.view-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  background: var(--canvas);
-}
-
-.view-tab {
-  flex: 1;
+/* Only visible inside an opened post — the way back to the grid. */
+.post-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 10px 0 9px;
+  border-bottom: 1px solid var(--border);
+  background: var(--canvas);
+  padding: 2px 8px;
+}
+
+.post-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px;
   border: 0;
-  border-bottom: 2px solid transparent;
   background: none;
   color: var(--dusk);
   font-family: inherit;
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: color 0.16s ease, border-color 0.16s ease;
+  transition: color 0.16s ease;
 }
 
-.view-tab svg {
-  width: 17px;
-  height: 17px;
+.post-back svg {
+  width: 16px;
+  height: 16px;
 }
 
-.view-tab:hover {
+.post-back:hover {
   color: var(--ink);
 }
 
-.view-tab[aria-pressed='true'] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-  font-weight: 600;
-}
-
-.view-tab:focus-visible {
+.post-back:focus-visible {
   outline: 2px solid var(--violet);
   outline-offset: -2px;
+  border-radius: var(--r-sm);
 }
 
 .tile-grid {
@@ -1581,9 +1576,9 @@ body {
     padding-right: 32px;
   }
 
-  /* Line the tabs up with the feed column — a full-bleed underline over a
-     centred 600px grid reads as two unrelated things. */
-  .view-tabs {
+  /* Line the back bar up with the feed column — a full-bleed bar over a
+     centred 600px column reads as unrelated chrome. */
+  .post-nav {
     width: 100%;
     max-width: var(--feed-width);
     margin: 0 auto;
