@@ -51,38 +51,220 @@
       "owner": "amit@bria.ai",
       "description": "Amit's personal working dashboards.",
       "order": 10
+    },
+    {
+      "id": "bugs",
+      "type": "bu",
+      "name": "Bugs",
+      "emoji": "🐞",
+      "description": "What is broken, who is blocked by it, and how long it has been open.",
+      "order": 5
+    },
+    {
+      "id": "voice",
+      "type": "bu",
+      "name": "Customer Voice",
+      "emoji": "💬",
+      "description": "What customers actually said — support, churn reasons, evaluation blockers.",
+      "order": 6
     }
   ],
   "posts": [
+    {
+      "id": "2026-08-15-bugs-open-queue",
+      "channel": "bugs",
+      "level": "team",
+      "title": "What Is Actually Broken",
+      "description": "Every open support ticket, oldest first, with the customer waiting behind it. Two are named companies blocked mid-evaluation; the oldest has been open since July and stopped a paid trial cold. The rest is chatbot intake nobody has triaged.",
+      "facts": [
+        {
+          "label": "Open tickets",
+          "value": "14"
+        },
+        {
+          "label": "Waiting on us",
+          "value": "8"
+        },
+        {
+          "label": "Oldest, in days",
+          "value": "23"
+        },
+        {
+          "label": "Never touched",
+          "value": "2"
+        }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "Where the 14 open tickets sit",
+        "segments": [
+          {
+            "label": "Waiting on us",
+            "value": 8,
+            "tone": "bad"
+          },
+          {
+            "label": "Waiting on contact",
+            "value": 4,
+            "tone": "partial"
+          },
+          {
+            "label": "New, untouched",
+            "value": 2,
+            "tone": "good"
+          }
+        ]
+      },
+      "source": "HubSpot support queue · 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/adcd002b-f70c-420d-a292-017123909ce8",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T06:42:31Z",
+      "actions": [
+        "Which open ticket is blocking the most money?",
+        "The oldest one has been open 23 days — what is it and who owns it?",
+        "How much of this queue is real versus chatbot noise?"
+      ]
+    },
+    {
+      "id": "2026-08-15-voice-what-customers-said",
+      "channel": "voice",
+      "level": "company",
+      "title": "What Customers Actually Said",
+      "description": "Verbatim from the support queue this month. One studio churned and named both reasons. One evaluation stopped because the docs contradict the API. One paid trial is waiting on legal answers nobody has sent. None of this appears in any deck.",
+      "facts": [
+        {
+          "label": "Tickets read",
+          "value": "60"
+        },
+        {
+          "label": "Named blockers",
+          "value": "3"
+        },
+        {
+          "label": "Churn reasons given",
+          "value": "2"
+        },
+        {
+          "label": "Still unanswered",
+          "value": "14"
+        }
+      ],
+      "chart": {
+        "type": "proportion",
+        "label": "What the substantive tickets were about",
+        "segments": [
+          {
+            "label": "Product quality",
+            "value": 2,
+            "tone": "bad"
+          },
+          {
+            "label": "Legal or billing",
+            "value": 3,
+            "tone": "partial"
+          },
+          {
+            "label": "Wants access",
+            "value": 3,
+            "tone": "good"
+          }
+        ]
+      },
+      "source": "HubSpot support tickets · read 15 Aug 2026",
+      "artifactUrl": "https://claude.ai/code/artifact/adcd002b-f70c-420d-a292-017123909ce8",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T07:32:31Z",
+      "actions": [
+        "What exactly did the studio that churned say?",
+        "Which evaluation is blocked on a documentation error?",
+        "What would it take to unblock all three named accounts this week?"
+      ]
+    },
+    {
+      "id": "2026-08-15-me-amit-h2-asks",
+      "channel": "u-amit",
+      "level": "me",
+      "owner": "amit@bria.ai",
+      "title": "Your Three H2 Asks",
+      "description": "What H2 Readiness has your name on, cut down to what only you can move. Pricing is the gate under the largest single gap in the half — until it lands, every new logo lands at zero.",
+      "facts": [
+        {
+          "label": "Named asks",
+          "value": "3"
+        },
+        {
+          "label": "Days to first",
+          "value": "14"
+        },
+        {
+          "label": "Gating others",
+          "value": "1"
+        }
+      ],
+      "source": "H2 Readiness, 16 Jul 2026 · your own commitments",
+      "artifactUrl": "https://claude.ai/code/artifact/adcd002b-f70c-420d-a292-017123909ce8",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T08:27:31Z",
+      "actions": [
+        "What is blocking the pricing decision right now?",
+        "Which of my three asks unblocks the most other people?",
+        "Draft the pricing note for Michael."
+      ]
+    },
     {
       "id": "2026-08-15-org-h2-arithmetic",
       "channel": "org",
       "title": "The H2 Arithmetic",
       "description": "A forecast of H2 built from Bria's own win rates rather than from the plan. Three priorities carry the half, ten functions have one ask each — quoted from their own H2 Readiness commitments — and one decision needs settling by 29 August. The numbers live in the dashboard.",
       "facts": [
-        { "label": "Decision due", "value": "29 Aug" },
-        { "label": "Priorities", "value": "3" },
-        { "label": "Functions", "value": "10" },
-        { "label": "Tripwires", "value": "5" }
+        {
+          "label": "Decision due",
+          "value": "29 Aug"
+        },
+        {
+          "label": "Priorities",
+          "value": "3"
+        },
+        {
+          "label": "Functions",
+          "value": "10"
+        },
+        {
+          "label": "Tripwires",
+          "value": "5"
+        }
       ],
       "chart": {
         "type": "proportion",
         "label": "When each function's ask lands",
         "segments": [
-          { "label": "By 22 Aug", "value": 2, "tone": "bad" },
-          { "label": "By 31 Aug", "value": 4, "tone": "partial" },
-          { "label": "September", "value": 3, "tone": "good" }
+          {
+            "label": "By 22 Aug",
+            "value": 2,
+            "tone": "bad"
+          },
+          {
+            "label": "By 31 Aug",
+            "value": 4,
+            "tone": "partial"
+          },
+          {
+            "label": "September",
+            "value": 3,
+            "tone": "good"
+          }
         ]
       },
       "source": "HubSpot 2026 YTD + H2 Readiness · 15 Aug 2026",
       "artifactUrl": "https://claude.ai/code/artifact/adb26255-9156-4bc3-8b06-8a282a2fd672",
       "author": "amit@bria.ai",
-      "publishedAt": "2026-08-15T11:00:00Z",
+      "publishedAt": "2026-08-15T07:14:15Z",
       "actions": [
         "What has to be true for the 29 August decision to go either way?",
         "What is my function's ask this month, and where did it come from?",
         "Which tripwire is closest to firing right now?"
-      ]
+      ],
+      "level": "company"
     },
     {
       "id": "2026-08-15-org-h2-target-waterfall",
@@ -90,18 +272,42 @@
       "title": "H2 Target Waterfall",
       "description": "What H2 committed to, what has actually landed, and the gap between them — rebuilt from HubSpot and PostHog. Seven categories to check every morning, each with the dashboard that answers it and the one action it triggers. The figures live in the dashboard, not here.",
       "facts": [
-        { "label": "Days left in H2", "value": "138" },
-        { "label": "Daily checks", "value": "7" },
-        { "label": "Initiatives", "value": "20" },
-        { "label": "H2 elapsed", "value": "25%" }
+        {
+          "label": "Days left in H2",
+          "value": "138"
+        },
+        {
+          "label": "Daily checks",
+          "value": "7"
+        },
+        {
+          "label": "Initiatives",
+          "value": "20"
+        },
+        {
+          "label": "H2 elapsed",
+          "value": "25%"
+        }
       ],
       "chart": {
         "type": "proportion",
         "label": "H2 initiatives by status",
         "segments": [
-          { "label": "In progress", "value": 13, "tone": "good" },
-          { "label": "Not started", "value": 5, "tone": "bad" },
-          { "label": "Planning", "value": 2, "tone": "partial" }
+          {
+            "label": "In progress",
+            "value": 13,
+            "tone": "good"
+          },
+          {
+            "label": "Not started",
+            "value": 5,
+            "tone": "bad"
+          },
+          {
+            "label": "Planning",
+            "value": 2,
+            "tone": "partial"
+          }
         ]
       },
       "source": "HubSpot, PostHog & Drive · snapshot 15 Aug 2026",
@@ -112,7 +318,8 @@
         "Which of the seven categories is furthest off track today?",
         "What single action closes the most of the gap this week?",
         "Rebuild today's numbers from HubSpot and PostHog."
-      ]
+      ],
+      "level": "company"
     },
     {
       "id": "2026-08-14-create-weekly-pulse",
@@ -120,10 +327,22 @@
       "title": "Bria Create Weekly Pulse",
       "description": "Weekly signups and active users on create.bria.ai — everyone who registered, and everyone who took at least one product action. Bria staff excluded.",
       "facts": [
-        { "label": "Weekly active", "value": "29" },
-        { "label": "Signups", "value": "14" },
-        { "label": "vs prior week", "value": "−2 / −2" },
-        { "label": "Week", "value": "Aug 3–9" }
+        {
+          "label": "Weekly active",
+          "value": "29"
+        },
+        {
+          "label": "Signups",
+          "value": "14"
+        },
+        {
+          "label": "vs prior week",
+          "value": "−2 / −2"
+        },
+        {
+          "label": "Week",
+          "value": "Aug 3–9"
+        }
       ],
       "chart": {
         "type": "line",
@@ -132,9 +351,68 @@
         "to": "Aug 14",
         "partialLast": true,
         "values": [
-          5, 2, 4, 2, 3, 1, 1, 2, 3, 5, 3, 2, 2, 2, 0, 3, 7,
-          1, 3, 5, 0, 2, 3, 4, 5, 2, 2, 1, 2, 2, 3, 2, 2, 2, 1, 2, 3, 8, 3, 8, 7, 0, 5, 6, 7, 10, 7, 4,
-          5, 7, 8, 13, 16, 8, 5, 5, 4, 13, 10, 9, 7, 4
+          5,
+          2,
+          4,
+          2,
+          3,
+          1,
+          1,
+          2,
+          3,
+          5,
+          3,
+          2,
+          2,
+          2,
+          0,
+          3,
+          7,
+          1,
+          3,
+          5,
+          0,
+          2,
+          3,
+          4,
+          5,
+          2,
+          2,
+          1,
+          2,
+          2,
+          3,
+          2,
+          2,
+          2,
+          1,
+          2,
+          3,
+          8,
+          3,
+          8,
+          7,
+          0,
+          5,
+          6,
+          7,
+          10,
+          7,
+          4,
+          5,
+          7,
+          8,
+          13,
+          16,
+          8,
+          5,
+          5,
+          4,
+          13,
+          10,
+          9,
+          7,
+          4
         ]
       },
       "source": "PostHog · create.bria.ai · @bria.ai excluded",
@@ -145,7 +423,8 @@
         "Both signups and active users slipped last week — what's behind it?",
         "The week of Aug 10 is tracking ahead. What changed?",
         "Draft a short Create traction update for the team."
-      ]
+      ],
+      "level": "function"
     },
     {
       "id": "2026-08-14-create-email-signup-tracker",
@@ -153,9 +432,18 @@
       "title": "Email → Signup Tracker",
       "description": "The early-access send from Aug 10, followed all the way through: delivery, clicks, and which signups on create.bria.ai are actually attributable to the email.",
       "facts": [
-        { "label": "Send", "value": "Aug 10" },
-        { "label": "Variants", "value": "4 A/B" },
-        { "label": "Refresh", "value": "Hourly" }
+        {
+          "label": "Send",
+          "value": "Aug 10"
+        },
+        {
+          "label": "Variants",
+          "value": "4 A/B"
+        },
+        {
+          "label": "Refresh",
+          "value": "Hourly"
+        }
       ],
       "source": "HubSpot + PostHog · figures computed live",
       "artifactUrl": "https://claude.ai/code/artifact/6c35eca9-8268-4b38-909a-66eed45d19da",
@@ -165,7 +453,8 @@
         "Which variant is winning, and is the gap real yet?",
         "How many signups are genuinely attributable to the email?",
         "Is anything worth changing before the next send?"
-      ]
+      ],
+      "level": "team"
     },
     {
       "id": "2026-08-13-marketing-positioning-audit",
@@ -173,18 +462,42 @@
       "title": "Create Positioning Evidence Audit",
       "description": "Every checkable claim in the Create positioning doc (v1.7, Ad-First) run against Slack, Gong calls and Drive. Two claims come back false as lived customer experience.",
       "facts": [
-        { "label": "Claims checked", "value": "10" },
-        { "label": "Confirmed", "value": "5" },
-        { "label": "Contradicted", "value": "2" },
-        { "label": "Nuanced", "value": "3" }
+        {
+          "label": "Claims checked",
+          "value": "10"
+        },
+        {
+          "label": "Confirmed",
+          "value": "5"
+        },
+        {
+          "label": "Contradicted",
+          "value": "2"
+        },
+        {
+          "label": "Nuanced",
+          "value": "3"
+        }
       ],
       "chart": {
         "type": "proportion",
         "label": "How the 10 claims held up",
         "segments": [
-          { "label": "Confirmed", "value": 5, "tone": "good" },
-          { "label": "Nuanced", "value": 3, "tone": "partial" },
-          { "label": "Contradicted", "value": 2, "tone": "bad" }
+          {
+            "label": "Confirmed",
+            "value": 5,
+            "tone": "good"
+          },
+          {
+            "label": "Nuanced",
+            "value": 3,
+            "tone": "partial"
+          },
+          {
+            "label": "Contradicted",
+            "value": 2,
+            "tone": "bad"
+          }
         ]
       },
       "source": "Slack, Gong/HubSpot, Drive · audited 13 Aug 2026",
@@ -195,7 +508,8 @@
         "Which two claims are contradicted, and what's the evidence?",
         "What should change in v1.8 of the positioning doc?",
         "Draft the rewrite for the claims that didn't survive."
-      ]
+      ],
+      "level": "function"
     }
   ]
 }

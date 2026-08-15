@@ -114,6 +114,52 @@ function renderChart(post) {
   return null;
 }
 
+// The altitude a post speaks at, shortest label that still reads.
+const LEVEL_LABELS = {
+  all: 'All levels',
+  company: 'Company',
+  function: 'Function',
+  team: 'Team',
+  me: 'Me',
+};
+
+const LEVEL_ORDER = ['all', 'company', 'function', 'team', 'me'];
+
+export function levelLabel(level) {
+  return LEVEL_LABELS[level] || level;
+}
+
+// A second filter beside the channel row. Channel is the subject; level is how
+// far down it reaches. An engineer filtering to "Me" should be left with the
+// handful of things that are actually theirs to do.
+export function renderLevels(container, counts, activeLevel, { onSelect }) {
+  clear(container);
+
+  for (const level of LEVEL_ORDER) {
+    const count = counts[level] || 0;
+    const empty = level !== 'all' && count === 0;
+
+    container.append(
+      el(
+        'button',
+        {
+          type: 'button',
+          class: `level-chip${empty ? ' level-chip--empty' : ''}`,
+          'aria-pressed': String(activeLevel === level),
+          // Disabled would drop it from the tab order and hide the zero, which
+          // is itself information: nothing has been published at this altitude.
+          title: empty ? `Nothing published at ${LEVEL_LABELS[level]} level yet` : undefined,
+          onclick: () => onSelect(level),
+        },
+        [
+          LEVEL_LABELS[level],
+          el('span', { class: 'level-count' }, [String(count)]),
+        ]
+      )
+    );
+  }
+}
+
 export function renderStories(container, channels, activeId, { onSelect }) {
   clear(container);
 
@@ -211,6 +257,7 @@ function renderCard(post, channel, handlers) {
       el('h2', { class: 'post-title' }, [post.title]),
       el('p', { class: 'post-sub' }, [subParts.join(' · ')]),
     ]),
+    el('span', { class: `level-badge level-badge--${post.level}` }, [LEVEL_LABELS[post.level]]),
   ]);
 
   const actions = [];
@@ -301,6 +348,8 @@ function renderTile(post, channel, onOpenPost) {
   if (channel && channel.emoji) {
     inner.push(el('span', { class: 'tile-mark', 'aria-hidden': 'true' }, [channel.emoji]));
   }
+  // Altitude sits opposite the channel glyph, so a mixed grid reads at a glance.
+  inner.push(el('span', { class: `tile-level tile-level--${post.level}` }, [LEVEL_LABELS[post.level]]));
 
   if (hero) {
     // Long values step down a size — "29 Aug" set at "138"'s size overflows the tile.

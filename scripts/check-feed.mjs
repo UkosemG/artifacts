@@ -110,6 +110,18 @@ for (const [i, p] of posts.entries()) {
   }
   if (p.publishedAt && Number.isNaN(Date.parse(p.publishedAt))) {
     fail(`${where} ("${label}") publishedAt is not a parseable date`);
+  } else if (p.publishedAt && Date.parse(p.publishedAt) > Date.now()) {
+    // The card renders a relative time, so a future stamp reads as
+    // "in 5 hours" — a post that appears to be published later than now.
+    fail(`${where} ("${label}") publishedAt is in the future — the card will read "in N hours"`);
+  }
+
+  const level = p.level;
+  if (level && !['company', 'function', 'team', 'me'].includes(level)) {
+    fail(`${where} ("${label}") has unknown level "${level}"`);
+  }
+  if (level === 'me' && !p.owner) {
+    warnings.push(`"${label}" is at "me" level with no owner — it will show for everyone`);
   }
 
   // The grid tile leads with the first fact, so a post without one falls back

@@ -1193,6 +1193,89 @@ body {
    One dashboard per screen, swiped vertically like Reels. The feed becomes the
    scroll container so the topbar and channel row stay put while cards snap. */
 
+/* ---------- Levels (altitude filter) ---------- */
+
+.levels {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+
+.levels::-webkit-scrollbar {
+  display: none;
+}
+
+.level-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 5px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--surface);
+  color: var(--dusk);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.level-chip:hover {
+  border-color: var(--lavender);
+  color: var(--ink);
+}
+
+.level-chip[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--text-light);
+}
+
+.level-chip:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+/* An empty level still shows its zero — that nothing has been published at this
+   altitude is information, not a reason to hide the filter. */
+.level-chip--empty {
+  opacity: 0.55;
+}
+
+.level-count {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.6875rem;
+  opacity: 0.75;
+}
+
+/* Altitude marker on a reel card, sitting opposite the title. */
+.level-badge {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: var(--r-full);
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--lavender-soft);
+  color: var(--violet);
+  white-space: nowrap;
+}
+
+.level-badge--company { background: var(--lavender-soft); color: var(--violet); }
+.level-badge--function { background: var(--blush-soft); color: #6b1f49; }
+.level-badge--team { background: #e1f0e8; color: #14432b; }
+.level-badge--me { background: var(--ink); color: var(--text-light); }
+
 /* ---------- View toggle + grid ---------- */
 
 .view-tabs {
@@ -1284,6 +1367,30 @@ body {
   left: 8px;
   font-size: 0.75rem;
   opacity: 0.72;
+}
+
+/* Altitude sits opposite the channel glyph. It inherits the tile's ink, so it
+   stays legible on every tint without needing a per-tint rule. */
+.tile-level {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+/* "Me" is the one altitude worth spotting from across the grid, so it gets full
+   opacity and an outline rather than a fill — a fill in currentColor would paint
+   the label out, and a fixed colour would fail on half the tints. */
+.tile-level--me {
+  opacity: 1;
+  font-weight: 500;
+  padding: 1px 5px;
+  border: 1px solid currentColor;
+  border-radius: var(--r-full);
 }
 
 .tile-val {

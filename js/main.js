@@ -5,10 +5,13 @@ import * as store from './store.js';
 import * as auth from './auth.js';
 import { initChat, openChat, closeChat } from './chat.js';
 import { initComments, openComments, closeComments, primeCounts } from './comments.js';
-import { renderStories, renderFeed, renderGrid, renderLoading, renderFeedError } from './feed.js';
+import {
+  renderStories, renderLevels, renderFeed, renderGrid, renderLoading, renderFeedError,
+} from './feed.js';
 import { el, clear, show, hide, initials, displayNameFromEmail, toast } from './ui.js';
 
 const VIEW_KEY = 'briafeed.view.v1';
+const LEVEL_KEY = 'briafeed.level.v1';
 
 const dom = {};
 let currentUser = null;
@@ -18,6 +21,8 @@ let previewMode = false;
 // Grid opens first: it answers "what's here" in one screen, where the reel
 // shows one post and makes you scroll to find anything.
 let view = 'grid';
+// All levels by default — narrowing is a choice the reader makes.
+let activeLevel = 'all';
 
 function cacheDom() {
   dom.gate = document.getElementById('gate');
@@ -27,6 +32,7 @@ function cacheDom() {
   dom.app = document.getElementById('app');
   dom.stories = document.getElementById('stories');
   dom.feed = document.getElementById('feed');
+  dom.levels = document.getElementById('levels');
   dom.tabGrid = document.getElementById('tab-grid');
   dom.tabReel = document.getElementById('tab-reel');
   dom.topbarUser = document.getElementById('topbar-user');
@@ -66,11 +72,14 @@ function renderAvatar(user) {
 
 function renderCurrentView({ scrollToPostId } = {}) {
   const channels = store.getChannels(currentUser);
-  const posts = store.getPosts(activeChannel);
+  const posts = store.getPosts(activeChannel, activeLevel, currentUser);
   const channel = store.getChannel(activeChannel);
   const isGrid = view === 'grid';
 
   renderStories(dom.stories, channels, activeChannel, { onSelect: selectChannel });
+  renderLevels(dom.levels, store.countByLevel(activeChannel, currentUser), activeLevel, {
+    onSelect: selectLevel,
+  });
 
   dom.feed.classList.toggle('feed--grid', isGrid);
   dom.feed.classList.toggle('feed--reel', !isGrid);
@@ -101,6 +110,16 @@ function renderCurrentView({ scrollToPostId } = {}) {
 
 function selectChannel(channelId) {
   activeChannel = channelId;
+  renderCurrentView();
+}
+
+function selectLevel(level) {
+  activeLevel = level;
+  try {
+    localStorage.setItem(LEVEL_KEY, level);
+  } catch {
+    /* private browsing — the choice just won't survive a reload */
+  }
   renderCurrentView();
 }
 
@@ -147,6 +166,7 @@ function handleSignOut() {
   closeChat();
   closeComments();
   clear(dom.stories);
+  clear(dom.levels);
   clear(dom.feed);
   showGate('signin');
   toast('Signed out');
@@ -168,8 +188,10 @@ async function boot() {
   try {
     const saved = localStorage.getItem(VIEW_KEY);
     if (saved === 'grid' || saved === 'reel') view = saved;
+    const level = localStorage.getItem(LEVEL_KEY);
+    if (level === 'all' || store.LEVELS.includes(level)) activeLevel = level;
   } catch {
-    /* private browsing — fall back to the grid default */
+    /* private browsing — fall back to the defaults */
   }
 
   dom.tabGrid.addEventListener('click', () => setView('grid'));

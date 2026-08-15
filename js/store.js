@@ -10,6 +10,12 @@ import { displayNameFromEmail } from './ui.js';
 const ORG_CHANNEL_ID = 'org';
 const MAX_FACTS_PER_CARD = 4;
 
+// How far down the org a post is aimed. A company number tells an engineer
+// nothing about their Tuesday, so every post declares the altitude it speaks at
+// and the feed can be filtered to the one the reader actually acts on.
+export const LEVELS = ['company', 'function', 'team', 'me'];
+const DEFAULT_LEVEL = 'function';
+
 const state = {
   channels: [],
   posts: [],
@@ -101,6 +107,9 @@ function normalizePost(raw, knownChannelIds, index) {
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: normalizeFacts(raw.facts),
     chart: normalizeChart(raw.chart),
+    level: LEVELS.includes(raw.level) ? raw.level : DEFAULT_LEVEL,
+    // Who this is actually for at the "me" level — an email, or a role name.
+    owner: typeof raw.owner === 'string' ? raw.owner.toLowerCase() : '',
     // Where the numbers came from, shown on the card.
     source: typeof raw.source === 'string' ? raw.source : '',
     artifactUrl: typeof raw.artifactUrl === 'string' ? raw.artifactUrl : '',
@@ -124,6 +133,8 @@ function artifactToPost(raw, index) {
     title,
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: [],
+    level: DEFAULT_LEVEL,
+    owner: '',
     artifactUrl: url,
     author: '',
     publishedAt: typeof raw.addedAt === 'string' ? raw.addedAt : '',
@@ -223,9 +234,38 @@ export function getChannels(user) {
     });
 }
 
-export function getPosts(channelId) {
-  if (!channelId || channelId === 'all') return state.posts;
-  return state.posts.filter((p) => p.channel === channelId);
+// Channel is what the post is about; level is how far down it reaches. They're
+// independent filters — "R&D, at my level" is a different question from either
+// one alone. At the "me" level a signed-in user sees only posts addressed to
+// them, since that is the whole point of the altitude.
+export function getPosts(channelId, level, user) {
+  let posts = state.posts;
+
+  if (channelId && channelId !== 'all') {
+    posts = posts.filter((p) => p.channel === channelId);
+  }
+
+  if (level && level !== 'all') {
+    posts = posts.filter((p) => p.level === level);
+    if (level === 'me') {
+      const email = String(user?.email || '').toLowerCase();
+      posts = posts.filter((p) => !p.owner || p.owner === email);
+    }
+  }
+
+  return posts;
+}
+
+// How many posts sit at each level, for the filter row — a level with nothing
+// behind it should say so rather than leading somewhere empty.
+// Counts must be what the filter would actually return, owner rule included —
+// a chip reading "Me 1" over an empty grid is worse than no count at all.
+export function countByLevel(channelId, user) {
+  const counts = { all: getPosts(channelId, 'all', user).length };
+  for (const level of LEVELS) {
+    counts[level] = getPosts(channelId, level, user).length;
+  }
+  return counts;
 }
 
 export function getPost(id) {

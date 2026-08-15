@@ -30,6 +30,8 @@ const cases = [
   ['unknown channel', (f) => (f.posts[0].channel = 'nope')],
   ['non-https artifact url', (f) => (f.posts[0].artifactUrl = 'http://example.com/x')],
   ['unparseable publishedAt', (f) => (f.posts[0].publishedAt = 'last tuesday')],
+  ['future publishedAt', (f) => (f.posts[0].publishedAt = '2099-01-01T00:00:00Z')],
+  ['unknown level', (f) => (f.posts[0].level = 'galaxy')],
   ['post with no title', (f) => delete f.posts[0].title],
   ['personal channel with no owner', (f) => delete f.channels.find((c) => c.type === 'personal').owner],
   ['duplicate channel id', (f) => f.channels.push({ ...f.channels[0] })],
