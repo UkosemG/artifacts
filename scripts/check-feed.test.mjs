@@ -36,6 +36,7 @@ const cases = [
   ['personal channel with no owner', (f) => delete f.channels.find((c) => c.type === 'personal').owner],
   ['duplicate channel id', (f) => f.channels.push({ ...f.channels[0] })],
   ['numeric post without a target', (f) => delete f.posts[0].target],
+  ['target without a status', (f) => delete f.posts[0].status],
   ['task with no owner', (f) => (f.posts.find((p) => p.task).task.owner = '')],
   ['task with no milestones', (f) => (f.posts.find((p) => p.task).task.milestones = [])],
   ['milestone with unparseable date', (f) => (f.posts.find((p) => p.task).task.milestones[0].due = 'soonish')],

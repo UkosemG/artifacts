@@ -121,12 +121,18 @@ function shortDate(str) {
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
-// The house rule: a number without a target and a date is not allowed.
+const STATUS_LABELS = { on: 'ON TRACK', risk: 'AT RISK', off: 'OFF TRACK' };
+
+// The house rule: a number without a target and a date is not allowed — and a
+// target without an on-track verdict answers nothing.
 function renderTarget(post, compact) {
   if (!post.target) return null;
   return el('span', { class: compact ? 'tile-target' : 'hero-target' }, [
     el('span', { class: 'target-arrow', 'aria-hidden': 'true' }, ['→']),
     ` ${post.target.value} · by ${post.target.by}`,
+    post.status
+      ? el('span', { class: `status status--${post.status}` }, [` · ${STATUS_LABELS[post.status]}`])
+      : null,
   ]);
 }
 
@@ -333,7 +339,8 @@ function renderCard(post, channel, handlers) {
   if (post.artifactUrl) {
     // Dashboards live on claude.ai; anything else is original content — a blog
     // post, a LinkedIn post — and the button should say where the tap goes.
-    const isDashboard = post.artifactUrl.includes('claude.ai');
+    const isDashboard =
+      post.artifactUrl.includes('claude.ai') || post.artifactUrl.includes('lookerstudio');
     actions.push(
       el(
         'a',
@@ -404,7 +411,7 @@ function renderCard(post, channel, handlers) {
 // from photos, and channel colour is what stands in for that here. Named channels
 // keep a fixed tint so the grid looks the same on every visit; anything new cycles
 // through the same six.
-const TINT_BY_CHANNEL = { org: 1, create: 2, rnd: 3, gtm: 4, marketing: 5 };
+const TINT_BY_CHANNEL = { org: 1, create: 2, rnd: 3, pipeline: 4, marketing: 5 };
 const TINT_COUNT = 6;
 
 function tintIndex(channel, order) {
@@ -467,6 +474,39 @@ function renderTile(post, channel, onOpenPost) {
 export function renderGrid(container, posts, channel, handlers) {
   clear(container);
   container.setAttribute('aria-busy', 'false');
+
+  // The All view is a scorecard, not a timeline: sections in the category
+  // order the channels define, top company metrics first. Time orders posts
+  // only within a section.
+  if (!channel && handlers.channels) {
+    const byChannel = new Map();
+    for (const post of posts) {
+      if (!byChannel.has(post.channel)) byChannel.set(post.channel, []);
+      byChannel.get(post.channel).push(post);
+    }
+
+    const grid = el('div', { class: 'tile-grid' });
+    // The fixed category order wins even over "my channel first": the page
+    // opens on Top Company Metrics, and personal sections close the list.
+    const ordered = handlers.channels
+      .map((c, i) => ({ ...c, order: i }))
+      .sort((a, b) => (a.type === 'personal') - (b.type === 'personal'));
+    for (const c of ordered) {
+      const sectionPosts = byChannel.get(c.id);
+      if (!sectionPosts || sectionPosts.length === 0) continue;
+      grid.append(
+        el('h2', { class: 'section-head' }, [
+          c.emoji ? el('span', { 'aria-hidden': 'true' }, [c.emoji, ' ']) : null,
+          c.mine ? 'My channel' : c.name,
+        ])
+      );
+      for (const post of sectionPosts) {
+        grid.append(renderTile(post, c, handlers.onOpenPost));
+      }
+    }
+    container.append(grid);
+    return;
+  }
 
   if (posts.length === 0) {
     container.append(

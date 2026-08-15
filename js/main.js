@@ -91,7 +91,9 @@ function renderCurrentView({ scrollToPostId, restoreScroll } = {}) {
   dom.postNav.hidden = isGrid;
 
   if (isGrid) {
-    renderGrid(dom.feed, posts, channel, { channels, onOpenPost: openPost });
+    // 'All' has no single channel — the grid renders category sections instead.
+    const gridChannel = activeChannel === 'all' ? null : channel;
+    renderGrid(dom.feed, posts, gridChannel, { channels, onOpenPost: openPost });
   } else {
     renderFeed(dom.feed, posts, channel, {
       channels,

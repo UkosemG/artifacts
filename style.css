@@ -1541,6 +1541,28 @@ body {
   font-weight: 700;
 }
 
+/* On track or not — the answer, not just the destination. Fixed inks that
+   clear 4.5:1 on white and on every tile tint. */
+.status { font-weight: 700; letter-spacing: 0.05em; }
+.status--on { color: #14532b; }
+.status--risk { color: #7a4a00; }
+.status--off { color: #8f1140; }
+
+/* Category headers in the sectioned All view. */
+.section-head {
+  margin: 14px 2px 0;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dusk);
+}
+
+.section-head:first-child {
+  margin-top: 0;
+}
+
 /* One-line execution state on a tile: owner and next milestone. */
 .tile-task {
   font-family: 'DM Mono', ui-monospace, monospace;

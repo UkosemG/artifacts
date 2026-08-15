@@ -6,18 +6,58 @@
     {
       "id": "org",
       "type": "org",
-      "name": "Bria",
+      "name": "Top Company Metrics",
       "emoji": "🏛",
-      "description": "Company-wide dashboards and facts everyone should know.",
+      "description": "The company scorecard — the numbers that say whether the half is on track, and the decision each one is waiting on.",
       "order": 0
     },
     {
-      "id": "create",
+      "id": "usage",
       "type": "bu",
-      "name": "Bria Create",
-      "emoji": "🎨",
-      "description": "Product pulse for create.bria.ai — signups, active users and activation.",
+      "name": "Usage",
+      "emoji": "📊",
+      "description": "How much the product is actually used — API calls, platform activity, volume, and the trend of each.",
       "order": 1
+    },
+    {
+      "id": "revenue",
+      "type": "bu",
+      "name": "Revenue",
+      "emoji": "💠",
+      "description": "Where the half stands. Percentages live here; amounts live in the access-controlled KPI dashboard.",
+      "order": 2
+    },
+    {
+      "id": "value",
+      "type": "bu",
+      "name": "Value to Customers",
+      "emoji": "🤝",
+      "description": "Are customers getting value — product usage, logins, retention, and what they actually said.",
+      "order": 3
+    },
+    {
+      "id": "collections",
+      "type": "bu",
+      "name": "Collections",
+      "emoji": "🧾",
+      "description": "Money actually collected, not just promised. Grounded from the finance KPI dashboard once it is wired.",
+      "order": 4
+    },
+    {
+      "id": "pipeline",
+      "type": "bu",
+      "name": "Pipeline & Deals",
+      "emoji": "📈",
+      "description": "Deals in motion — what is moving, what is stuck, and how fast wins actually close.",
+      "order": 5
+    },
+    {
+      "id": "marketing",
+      "type": "bu",
+      "name": "Marketing",
+      "emoji": "📣",
+      "description": "Getting the leads: campaigns, conversion, and what each channel costs once spend is connected.",
+      "order": 6
     },
     {
       "id": "rnd",
@@ -25,32 +65,7 @@
       "name": "R&D",
       "emoji": "🧪",
       "description": "Model quality, evals, infra and research velocity.",
-      "order": 2
-    },
-    {
-      "id": "gtm",
-      "type": "bu",
-      "name": "GTM",
-      "emoji": "📈",
-      "description": "Pipeline, revenue, customers and partnerships.",
-      "order": 3
-    },
-    {
-      "id": "marketing",
-      "type": "bu",
-      "name": "Marketing",
-      "emoji": "📣",
-      "description": "Demand, brand, content and developer community.",
-      "order": 4
-    },
-    {
-      "id": "u-amit",
-      "type": "personal",
-      "name": "Amit",
-      "emoji": "👤",
-      "owner": "amit@bria.ai",
-      "description": "Amit's personal working dashboards.",
-      "order": 10
+      "order": 7
     },
     {
       "id": "bugs",
@@ -58,37 +73,38 @@
       "name": "Bugs",
       "emoji": "🐞",
       "description": "What is broken, who is blocked by it, and how long it has been open.",
-      "order": 5
-    },
-    {
-      "id": "voice",
-      "type": "bu",
-      "name": "Customer Voice",
-      "emoji": "💬",
-      "description": "What customers actually said — support, churn reasons, evaluation blockers.",
-      "order": 6
-    },
-    {
-      "id": "perf",
-      "type": "bu",
-      "name": "Performance",
-      "emoji": "🎯",
-      "description": "Paid acquisition across every channel — what it brings in, and what it costs once spend is connected.",
-      "order": 7
-    },
-    {
-      "id": "organic",
-      "type": "bu",
-      "name": "Organic Media",
-      "emoji": "🌱",
-      "description": "Bria's own posts and content — every card links to the original.",
       "order": 8
+    },
+    {
+      "id": "social",
+      "type": "bu",
+      "name": "Social",
+      "emoji": "🌱",
+      "description": "All the socials in one place — Bria's posts, blogs and their impact. Every card links to the original.",
+      "order": 9
+    },
+    {
+      "id": "create",
+      "type": "bu",
+      "name": "Create (Product)",
+      "emoji": "🎨",
+      "description": "create.bria.ai as a product — number of users, assets created, and the trend of both.",
+      "order": 10
+    },
+    {
+      "id": "u-amit",
+      "type": "personal",
+      "name": "Amit",
+      "emoji": "👤",
+      "owner": "amit@bria.ai",
+      "description": "Amit's personal working dashboards and open asks.",
+      "order": 20
     }
   ],
   "posts": [
     {
       "id": "2026-08-15-perf-acquisition-mix",
-      "channel": "perf",
+      "channel": "marketing",
       "level": "function",
       "title": "Where New Contacts Come From",
       "description": "Original-source attribution for everyone who arrived since July. Among contacts the web can attribute, paid is nearly half — and no ad platform is connected to any system, so the biggest channel runs with no visible cost. Most signups arrive by API and never touch attribution at all.",
@@ -169,11 +185,12 @@
             "done": false
           }
         ]
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-organic-engine",
-      "channel": "organic",
+      "channel": "social",
       "level": "function",
       "title": "The Organic Engine",
       "description": "What Bria's own content actually does. One post carries the channel: OBS background removal converts 14% of readers into form fills. LinkedIn and X distribution is happening — the UTM crumbs prove it — but no social platform is connected, so those posts can't be listed here yet.",
@@ -228,11 +245,12 @@
       "target": {
         "value": "a second post above 10% form rate",
         "by": "30 Sep"
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-15-organic-obs-post",
-      "channel": "organic",
+      "channel": "social",
       "level": "team",
       "title": "Background Removal for OBS",
       "description": "The best-performing piece of content Bria has: a concrete tool for a creator audience. Tap through to read the original post.",
@@ -261,11 +279,12 @@
       "target": {
         "value": "1500 views",
         "by": "30 Sep"
-      }
+      },
+      "status": "on"
     },
     {
       "id": "2026-08-15-organic-nuke-post",
-      "channel": "organic",
+      "channel": "social",
       "level": "team",
       "title": "Generative AI Natively in Nuke",
       "description": "Second-most-read post since July — the M&E integration story, distributed through the Nuke campaign on LinkedIn. Tap through to the original.",
@@ -289,11 +308,12 @@
       "target": {
         "value": "call to action live on page",
         "by": "1 Sep"
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-organic-eu-ai-act-post",
-      "channel": "organic",
+      "channel": "social",
       "level": "team",
       "title": "Article 50 of the EU AI Act",
       "description": "The compliance explainer, published days before the August 2 deadline it covers. Read, but converting nobody — there is no next step on the page. Tap through to the original.",
@@ -317,7 +337,8 @@
       "target": {
         "value": "first reader converted",
         "by": "15 Sep"
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-bugs-ticket-resolution",
@@ -376,11 +397,12 @@
       "target": {
         "value": "2.0 days median",
         "by": "30 Sep"
-      }
+      },
+      "status": "on"
     },
     {
       "id": "2026-08-15-gtm-deal-velocity",
-      "channel": "gtm",
+      "channel": "pipeline",
       "level": "function",
       "title": "Deal Velocity",
       "description": "How long a new-business win takes from the deal being opened to closed won, this year. Seven records where the close predates the create are excluded and named in the dashboard — what remains measures the sales motion, not the data entry. The fast cluster is Create POCs.",
@@ -435,7 +457,8 @@
       "target": {
         "value": "21 days median",
         "by": "31 Oct"
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-15-bugs-open-queue",
@@ -515,11 +538,12 @@
             "done": false
           }
         ]
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-voice-what-customers-said",
-      "channel": "voice",
+      "channel": "value",
       "level": "company",
       "title": "What Customers Actually Said",
       "description": "Verbatim from the support queue this month. One studio churned and named both reasons. One evaluation stopped because the docs contradict the API. One paid trial is waiting on legal answers nobody has sent. None of this appears in any deck.",
@@ -590,7 +614,8 @@
             "done": false
           }
         ]
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-me-amit-h2-asks",
@@ -656,7 +681,8 @@
             "done": false
           }
         ]
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-15-org-h2-arithmetic",
@@ -741,7 +767,8 @@
             "done": false
           }
         ]
-      }
+      },
+      "status": "off"
     },
     {
       "id": "2026-08-15-org-h2-target-waterfall",
@@ -800,7 +827,8 @@
       "target": {
         "value": "all 7 checks live",
         "by": "5 Sep"
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-14-create-weekly-pulse",
@@ -909,7 +937,8 @@
       "target": {
         "value": "60 weekly active",
         "by": "30 Sep"
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-14-create-email-signup-tracker",
@@ -943,7 +972,8 @@
       "target": {
         "value": "next send decided",
         "by": "22 Aug"
-      }
+      },
+      "status": "risk"
     },
     {
       "id": "2026-08-13-marketing-positioning-audit",
@@ -1002,6 +1032,646 @@
       "target": {
         "value": "v1.8 rewritten",
         "by": "29 Aug"
+      },
+      "status": "risk"
+    },
+    {
+      "id": "2026-08-15-revenue-h2-standing",
+      "channel": "revenue",
+      "level": "company",
+      "title": "Where the Half Stands",
+      "description": "How far the half has climbed toward its goal, computed low and high from what has actually landed. The spread is wide because attribution is incomplete — the exact figure and the amounts behind it live in the KPI dashboard, where access is controlled.",
+      "facts": [
+        {
+          "label": "Of the H2 goal",
+          "value": "9–25%"
+        },
+        {
+          "label": "H2 elapsed",
+          "value": "25%"
+        },
+        {
+          "label": "Days left",
+          "value": "138"
+        }
+      ],
+      "source": "Looker Studio KPI dashboard + HubSpot · 15 Aug 2026",
+      "artifactUrl": "https://lookerstudio.google.com/u/0/reporting/0aa02cd7-94ca-4ed0-9f09-b6cf7815e92d/page/VvPfF",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:10:00Z",
+      "actions": [
+        "Which single deal would move this the most before September?",
+        "What has to land each remaining month for the goal to stay reachable?",
+        "Open the KPI dashboard and read the exact standing."
+      ],
+      "target": {
+        "value": "the full H2 goal",
+        "by": "31 Dec"
+      },
+      "status": "off"
+    },
+    {
+      "id": "2026-08-15-collections-source-not-wired",
+      "channel": "collections",
+      "level": "function",
+      "title": "Collections: Source Not Wired",
+      "description": "Money collected is tracked in the finance KPI dashboard, but the sheet behind it is not shared with this feed — so this category cannot yet say whether the money is arriving on time. Until it can, the task below is the post.",
+      "facts": [
+        {
+          "label": "Wired sources",
+          "value": "0"
+        },
+        {
+          "label": "Owner",
+          "value": "Finance"
+        }
+      ],
+      "source": "Notion Finance & Ops → Looker Studio · checked 15 Aug 2026",
+      "artifactUrl": "https://lookerstudio.google.com/u/0/reporting/0aa02cd7-94ca-4ed0-9f09-b6cf7815e92d/page/VvPfF",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:16:00Z",
+      "actions": [
+        "What exactly needs sharing for this category to go live?",
+        "Open the KPI dashboard this category should be reading from."
+      ],
+      "target": {
+        "value": "collections numbers on this card",
+        "by": "22 Aug"
+      },
+      "status": "off",
+      "task": {
+        "owner": "Finance",
+        "due": "2026-08-22",
+        "milestones": [
+          {
+            "what": "Share the sheet behind the KPI dashboard with the feed",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Agree the one number this card carries, and its cadence",
+            "due": "2026-08-19",
+            "done": false
+          },
+          {
+            "what": "First grounded collections post published here",
+            "due": "2026-08-22",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-usage-api-traffic-unwired",
+      "channel": "usage",
+      "level": "function",
+      "title": "API Traffic: Not Measured Here Yet",
+      "description": "Usage is the company's most important leading indicator — API calls and platform activity — and this category has no grounded number for it. PostHog covers create.bria.ai, but platform and API volume feed nothing this app can read. Until they do, this category is a task, not a scorecard.",
+      "facts": [
+        {
+          "label": "Grounded usage numbers",
+          "value": "0"
+        },
+        {
+          "label": "Owner",
+          "value": "Product & Data"
+        }
+      ],
+      "source": "PostHog project review · 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:22:00Z",
+      "actions": [
+        "What one event or metric should count as 'usage'?",
+        "What is the fastest path to a weekly API volume trend on this card?"
+      ],
+      "target": {
+        "value": "weekly API volume with trend on this card",
+        "by": "20 Aug"
+      },
+      "status": "off",
+      "task": {
+        "owner": "Product & Data",
+        "due": "2026-08-20",
+        "milestones": [
+          {
+            "what": "Name the one event or metric that counts as usage",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Wire it into PostHog or a sheet the feed can read",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "First usage post with a weekly trend line",
+            "due": "2026-08-20",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-social-x-presence",
+      "channel": "social",
+      "level": "team",
+      "title": "Bria on X",
+      "description": "Bria's X account — the distribution end of every launch and blog post. Tap through to the profile. Post-level reach can't be read from here without platform access; the engagement card owns wiring that.",
+      "facts": [
+        {
+          "label": "Handle",
+          "value": "@bria_ai_"
+        }
+      ],
+      "source": "x.com/bria_ai_",
+      "artifactUrl": "https://x.com/bria_ai_",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:28:00Z",
+      "actions": [
+        "What did we post on X this month, and what should be next?"
+      ],
+      "target": {
+        "value": "engagement per post on this card",
+        "by": "29 Aug"
+      },
+      "status": "risk"
+    },
+    {
+      "id": "2026-08-15-social-linkedin-presence",
+      "channel": "social",
+      "level": "team",
+      "title": "Bria on LinkedIn",
+      "description": "The company page — where the campaign posts actually run. Tap through to the page. Follower and post analytics sit behind LinkedIn admin access; the engagement card owns getting an export.",
+      "facts": [
+        {
+          "label": "Page",
+          "value": "linkedin.com/company/briaai"
+        }
+      ],
+      "source": "LinkedIn company page",
+      "artifactUrl": "https://www.linkedin.com/company/69230901/",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:34:00Z",
+      "actions": [
+        "Which campaign posts ran on the page this quarter?"
+      ],
+      "target": {
+        "value": "page analytics in this category",
+        "by": "29 Aug"
+      },
+      "status": "risk"
+    },
+    {
+      "id": "2026-08-15-social-engagement-unwired",
+      "channel": "social",
+      "level": "function",
+      "title": "Engagement: Nobody Is Counting",
+      "description": "Bria posts on LinkedIn and X and publishes blogs — but no reaction, share or reply is measured anywhere this feed can read. The blogs report views and form fills; the social side reports nothing. Export the numbers or paste the post URLs — either unblocks this card.",
+      "facts": [
+        {
+          "label": "Social metrics wired",
+          "value": "0"
+        },
+        {
+          "label": "Blogs measured",
+          "value": "Yes"
+        }
+      ],
+      "source": "LinkedIn + X · checked 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:40:00Z",
+      "actions": [
+        "What is the fastest way to get reactions and shares onto this card?"
+      ],
+      "target": {
+        "value": "reactions and shares per post, weekly",
+        "by": "19 Aug"
+      },
+      "status": "off",
+      "task": {
+        "owner": "Marketing",
+        "due": "2026-08-19",
+        "milestones": [
+          {
+            "what": "Export LinkedIn page analytics (needs admin login)",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Export X analytics or paste the last ten post URLs",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "First engagement post live in this category",
+            "due": "2026-08-19",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-me-amit-nurture-copy",
+      "channel": "u-amit",
+      "level": "me",
+      "owner": "amit@bria.ai",
+      "title": "Review the Create Nurture Copy",
+      "description": "Marketing is waiting on your review of the Create nurture-flow copy before the next send goes out. The ask is in your Slack DMs; the flow is blocked until you answer.",
+      "facts": [
+        {
+          "label": "Waiting on",
+          "value": "You"
+        },
+        {
+          "label": "Due",
+          "value": "Mon 17 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:46:00Z",
+      "actions": [
+        "Summarize the nurture copy thread and what exactly needs my sign-off."
+      ],
+      "target": {
+        "value": "copy reviewed and answered",
+        "by": "17 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Amit",
+        "due": "2026-08-17",
+        "milestones": [
+          {
+            "what": "Read the draft flow copy",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Send edits or approval in the Slack thread",
+            "due": "2026-08-17",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-me-amit-vrmbg-autoresponder",
+      "channel": "u-amit",
+      "level": "me",
+      "owner": "amit@bria.ai",
+      "title": "vRMBG Auto-Responder: Give Feedback",
+      "description": "The vRMBG 3.0 auto-responder test ran, and the team asked for your read on the results before widening it. Due tomorrow — the thread is waiting in Slack.",
+      "facts": [
+        {
+          "label": "Waiting on",
+          "value": "You"
+        },
+        {
+          "label": "Due",
+          "value": "Sun 16 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:50:00Z",
+      "actions": [
+        "Summarize the auto-responder test results for me."
+      ],
+      "target": {
+        "value": "feedback sent",
+        "by": "16 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Amit",
+        "due": "2026-08-16",
+        "milestones": [
+          {
+            "what": "Read the test results thread",
+            "due": "2026-08-15",
+            "done": false
+          },
+          {
+            "what": "Reply with go/no-go and edits",
+            "due": "2026-08-16",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-me-amit-inbound-screening",
+      "channel": "u-amit",
+      "level": "me",
+      "owner": "amit@bria.ai",
+      "title": "Inbound Screening: Decide With Michael",
+      "description": "How inbound requests get screened before they reach sales needs a decision from you and Michael. The Slack thread is waiting on it.",
+      "facts": [
+        {
+          "label": "With",
+          "value": "Michael"
+        },
+        {
+          "label": "Due",
+          "value": "Tue 18 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:54:00Z",
+      "actions": [
+        "Lay out the screening options and what each costs us."
+      ],
+      "target": {
+        "value": "decision posted in the thread",
+        "by": "18 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Amit & Michael",
+        "due": "2026-08-18",
+        "milestones": [
+          {
+            "what": "Align with Michael on the screening rule",
+            "due": "2026-08-17",
+            "done": false
+          },
+          {
+            "what": "Post the decision in the Slack thread",
+            "due": "2026-08-18",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-rnd-fibo-blind-eval",
+      "channel": "rnd",
+      "level": "company",
+      "title": "Fibo Edit 1.5: Do the Blind Eval",
+      "description": "R&D asked every employee to run the Fibo Edit 1.5 blind evaluation before the model decision is made — a few minutes each, closing this weekend. If you haven't done yours, this is the ask.",
+      "facts": [
+        {
+          "label": "Who",
+          "value": "Every employee"
+        },
+        {
+          "label": "Closes",
+          "value": "Sun 16 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T17:58:00Z",
+      "actions": [
+        "What is the blind eval measuring, and how do I run mine?"
+      ],
+      "target": {
+        "value": "every employee's eval submitted",
+        "by": "16 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "R&D — everyone submits",
+        "due": "2026-08-16",
+        "milestones": [
+          {
+            "what": "Run your blind eval session",
+            "due": "2026-08-15",
+            "done": false
+          },
+          {
+            "what": "Results tallied and the decision shared",
+            "due": "2026-08-16",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-pipeline-proposal-yair",
+      "channel": "pipeline",
+      "level": "team",
+      "title": "Send Yair the Updated Proposal",
+      "description": "An open conversation is waiting on the updated proposal going to Yair — the ask is explicit in Slack, and the thread stalls until it is sent.",
+      "facts": [
+        {
+          "label": "Owner",
+          "value": "Sales"
+        },
+        {
+          "label": "Due",
+          "value": "Mon 17 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T18:02:00Z",
+      "actions": [
+        "What changed in the proposal since the last version?"
+      ],
+      "target": {
+        "value": "proposal sent and confirmed",
+        "by": "17 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Sales",
+        "due": "2026-08-17",
+        "milestones": [
+          {
+            "what": "Update the proposal with the agreed changes",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Send to Yair and confirm receipt in the thread",
+            "due": "2026-08-17",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-pipeline-thursday-technical-prep",
+      "channel": "pipeline",
+      "level": "team",
+      "title": "Thursday Technical Meeting: Prep",
+      "description": "A technical deep-dive with an evaluating customer is set for Thursday, and the prep — agenda, demo environment, who covers what — is coming together in Slack now. Prep closes Wednesday so Thursday isn't improvised.",
+      "facts": [
+        {
+          "label": "Meeting",
+          "value": "Thu 20 Aug"
+        },
+        {
+          "label": "Prep due",
+          "value": "Wed 19 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T18:06:00Z",
+      "actions": [
+        "Build the agenda from what the customer asked for in the thread."
+      ],
+      "target": {
+        "value": "prep closed, roles assigned",
+        "by": "19 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Sales engineering",
+        "due": "2026-08-19",
+        "milestones": [
+          {
+            "what": "Agenda and demo scope agreed in the thread",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Demo environment tested end to end",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "Dry run done, roles assigned",
+            "due": "2026-08-19",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-pipeline-pilot-display-assets",
+      "channel": "pipeline",
+      "level": "team",
+      "title": "Pilot Customer: Display Asset Set",
+      "description": "The pilot customer is waiting on a display-asset set, with a hard date in Slack that lands this weekend. Name withheld here — the thread has the details.",
+      "facts": [
+        {
+          "label": "Due",
+          "value": "Sun 16 Aug"
+        },
+        {
+          "label": "Customer",
+          "value": "Named in thread"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T18:10:00Z",
+      "actions": [
+        "What exactly was promised, and what is still missing from the set?"
+      ],
+      "target": {
+        "value": "asset set delivered",
+        "by": "16 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Studio / Creative",
+        "due": "2026-08-16",
+        "milestones": [
+          {
+            "what": "Assets generated and reviewed",
+            "due": "2026-08-15",
+            "done": false
+          },
+          {
+            "what": "Delivered to the customer, confirmed in the thread",
+            "due": "2026-08-16",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-bugs-trial-login-failure",
+      "channel": "bugs",
+      "level": "team",
+      "title": "Trial Login Failing for an Agency User",
+      "description": "An agency user mid-trial cannot log in, and the thread flagging it is already a day old. A trial that can't start is a customer that can't convert — this is the sharpest bug in the queue right now.",
+      "facts": [
+        {
+          "label": "Blocking",
+          "value": "A live trial"
+        },
+        {
+          "label": "Due",
+          "value": "Sun 16 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T18:14:00Z",
+      "actions": [
+        "What do we know about the failure, and who is on it?"
+      ],
+      "target": {
+        "value": "user logged in, confirmed",
+        "by": "16 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Support + Platform",
+        "due": "2026-08-16",
+        "milestones": [
+          {
+            "what": "Reproduce the login failure",
+            "due": "2026-08-15",
+            "done": false
+          },
+          {
+            "what": "Fix shipped or workaround given to the user",
+            "due": "2026-08-16",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-08-15-pipeline-partner-outbound-reply",
+      "channel": "pipeline",
+      "level": "team",
+      "title": "Partner Outbound Rebuild: Reply Owed",
+      "description": "A partner proposed rebuilding the joint outbound motion and is waiting on Bria's answer. Silence past Tuesday reads as a no — someone needs to reply with a position.",
+      "facts": [
+        {
+          "label": "Waiting",
+          "value": "Partner"
+        },
+        {
+          "label": "Due",
+          "value": "Tue 18 Aug"
+        }
+      ],
+      "source": "Slack · swept 15 Aug 2026",
+      "author": "amit@bria.ai",
+      "publishedAt": "2026-08-15T18:18:00Z",
+      "actions": [
+        "Summarize the partner's proposal and draft Bria's reply."
+      ],
+      "target": {
+        "value": "reply sent with a position",
+        "by": "18 Aug"
+      },
+      "status": "risk",
+      "task": {
+        "owner": "Partnerships",
+        "due": "2026-08-18",
+        "milestones": [
+          {
+            "what": "Agree Bria's position internally",
+            "due": "2026-08-17",
+            "done": false
+          },
+          {
+            "what": "Reply sent to the partner",
+            "due": "2026-08-18",
+            "done": false
+          }
+        ]
       }
     }
   ]

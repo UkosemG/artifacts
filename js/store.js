@@ -136,6 +136,8 @@ function normalizePost(raw, knownChannelIds, index) {
     facts: normalizeFacts(raw.facts),
     chart: normalizeChart(raw.chart),
     target: normalizeTarget(raw.target),
+    // On track or not — mandatory wherever a target exists (checker enforces).
+    status: ['on', 'risk', 'off'].includes(raw.status) ? raw.status : null,
     task: normalizeTask(raw.task),
     level: LEVELS.includes(raw.level) ? raw.level : DEFAULT_LEVEL,
     // Who this is actually for at the "me" level — an email, or a role name.
@@ -164,6 +166,7 @@ function artifactToPost(raw, index) {
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: [],
     target: null,
+    status: null,
     task: null,
     level: DEFAULT_LEVEL,
     owner: '',

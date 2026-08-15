@@ -143,6 +143,11 @@ for (const [i, p] of posts.entries()) {
     }
   }
 
+  // A target without a verdict answers nothing: on, at risk, or off.
+  if (p.target && !['on', 'risk', 'off'].includes(p.status)) {
+    fail(`${where} ("${label}") has a target but no status — say whether it is on track`);
+  }
+
   // A task must be executable: owner, deadline, and dated milestones.
   if (p.task != null) {
     const t = p.task;
