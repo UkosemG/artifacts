@@ -274,6 +274,91 @@ function renderCard(post, channel, handlers) {
   ]);
 }
 
+// ---------- Grid view ----------
+//
+// Instagram's profile grid, where the photo is the number. A tile carries the
+// post's first fact and nothing else — at three across it is ~118px wide, which
+// fits a figure or a chart but not both. The chart is why you tap through.
+
+// A wall of white tiles reads as a spreadsheet; Instagram's grid gets its rhythm
+// from photos, and channel colour is what stands in for that here. Named channels
+// keep a fixed tint so the grid looks the same on every visit; anything new cycles
+// through the same six.
+const TINT_BY_CHANNEL = { org: 1, create: 2, rnd: 3, gtm: 4, marketing: 5 };
+const TINT_COUNT = 6;
+
+function tintIndex(channel, order) {
+  if (channel && TINT_BY_CHANNEL[channel.id]) return TINT_BY_CHANNEL[channel.id];
+  if (channel && channel.type === 'personal') return 6;
+  return ((order || 0) % TINT_COUNT) + 1;
+}
+
+function renderTile(post, channel, onOpenPost) {
+  const hero = (post.facts || [])[0];
+  const tint = tintIndex(channel, channel ? channel.order : 0);
+
+  const inner = [];
+  if (channel && channel.emoji) {
+    inner.push(el('span', { class: 'tile-mark', 'aria-hidden': 'true' }, [channel.emoji]));
+  }
+
+  if (hero) {
+    // Long values step down a size — "29 Aug" set at "138"'s size overflows the tile.
+    const long = String(hero.value).length > 4;
+    inner.push(el('span', { class: `tile-val${long ? ' tile-val--sm' : ''}` }, [hero.value]));
+    inner.push(el('span', { class: 'tile-lab' }, [hero.label]));
+  } else {
+    // No figures to lead with, so the tile falls back to the title.
+    inner.push(el('span', { class: 'tile-title' }, [post.title]));
+  }
+
+  return el(
+    'button',
+    {
+      type: 'button',
+      class: `tile tile--t${tint}`,
+      dataset: { tileFor: post.id },
+      'aria-label': hero
+        ? `${post.title}. ${hero.label}: ${hero.value}`
+        : post.title,
+      onclick: () => onOpenPost(post),
+    },
+    inner
+  );
+}
+
+export function renderGrid(container, posts, channel, handlers) {
+  clear(container);
+  container.setAttribute('aria-busy', 'false');
+
+  if (posts.length === 0) {
+    container.append(
+      el('div', { class: 'empty' }, [
+        el('p', {}, [
+          channel && channel.mine
+            ? 'Nothing in your channel yet. Ask Claude to publish a dashboard here.'
+            : 'Nothing posted here yet.',
+        ]),
+      ])
+    );
+    return;
+  }
+
+  // Channel order drives the fallback tint, so keep each channel's position.
+  const byId = new Map();
+  if (handlers.channels) {
+    handlers.channels.forEach((c, i) => byId.set(c.id, { ...c, order: i }));
+  }
+
+  container.append(
+    el(
+      'div',
+      { class: 'tile-grid' },
+      posts.map((post) => renderTile(post, byId.get(post.channel), handlers.onOpenPost))
+    )
+  );
+}
+
 export function renderFeed(container, posts, channel, handlers) {
   clear(container);
   container.setAttribute('aria-busy', 'false');

@@ -52,7 +52,25 @@
 
     <nav class="stories" id="stories" aria-label="Channels"></nav>
 
-    <main class="feed" id="feed" aria-live="polite" aria-busy="true"></main>
+    <!-- Grid is the index, reel is the read. Same posts, two densities. -->
+    <div class="view-tabs" id="view-tabs" role="group" aria-label="View">
+      <button type="button" class="view-tab" id="tab-grid" aria-pressed="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M9 3v18M15 3v18M3 9h18M3 15h18" />
+        </svg>
+        Grid
+      </button>
+      <button type="button" class="view-tab" id="tab-reel" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+          <rect x="5" y="3" width="14" height="18" rx="2" />
+          <path d="M10.6 9.4 15 12l-4.4 2.6z" fill="currentColor" stroke-linejoin="round" />
+        </svg>
+        Reel
+      </button>
+    </div>
+
+    <main class="feed feed--grid" id="feed" aria-live="polite" aria-busy="true"></main>
 
     <footer class="app-footer">
       <p>Dashboards open in Claude, where your own access decides what you can see.</p>

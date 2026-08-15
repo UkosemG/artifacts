@@ -5,14 +5,19 @@ import * as store from './store.js';
 import * as auth from './auth.js';
 import { initChat, openChat, closeChat } from './chat.js';
 import { initComments, openComments, closeComments, primeCounts } from './comments.js';
-import { renderStories, renderFeed, renderLoading, renderFeedError } from './feed.js';
+import { renderStories, renderFeed, renderGrid, renderLoading, renderFeedError } from './feed.js';
 import { el, clear, show, hide, initials, displayNameFromEmail, toast } from './ui.js';
+
+const VIEW_KEY = 'briafeed.view.v1';
 
 const dom = {};
 let currentUser = null;
 let activeChannel = 'all';
 let dataReady = null;
 let previewMode = false;
+// Grid opens first: it answers "what's here" in one screen, where the reel
+// shows one post and makes you scroll to find anything.
+let view = 'grid';
 
 function cacheDom() {
   dom.gate = document.getElementById('gate');
@@ -22,6 +27,8 @@ function cacheDom() {
   dom.app = document.getElementById('app');
   dom.stories = document.getElementById('stories');
   dom.feed = document.getElementById('feed');
+  dom.tabGrid = document.getElementById('tab-grid');
+  dom.tabReel = document.getElementById('tab-reel');
   dom.topbarUser = document.getElementById('topbar-user');
   dom.signout = document.getElementById('signout-btn');
 }
@@ -57,20 +64,60 @@ function renderAvatar(user) {
   }
 }
 
-function selectChannel(channelId) {
-  activeChannel = channelId;
+function renderCurrentView({ scrollToPostId } = {}) {
   const channels = store.getChannels(currentUser);
   const posts = store.getPosts(activeChannel);
+  const channel = store.getChannel(activeChannel);
+  const isGrid = view === 'grid';
 
   renderStories(dom.stories, channels, activeChannel, { onSelect: selectChannel });
-  renderFeed(dom.feed, posts, store.getChannel(activeChannel), {
-    channels,
-    onAskClaude: (post, prompt) => openChat(post, prompt),
-    onOpenComments: (post) => openComments(post),
-  });
 
-  dom.feed.scrollTop = 0;
-  primeCounts(posts);
+  dom.feed.classList.toggle('feed--grid', isGrid);
+  dom.feed.classList.toggle('feed--reel', !isGrid);
+  dom.tabGrid.setAttribute('aria-pressed', String(isGrid));
+  dom.tabReel.setAttribute('aria-pressed', String(!isGrid));
+
+  if (isGrid) {
+    renderGrid(dom.feed, posts, channel, { channels, onOpenPost: openPost });
+  } else {
+    renderFeed(dom.feed, posts, channel, {
+      channels,
+      onAskClaude: (post, prompt) => openChat(post, prompt),
+      onOpenComments: (post) => openComments(post),
+    });
+  }
+
+  if (scrollToPostId) {
+    const card = dom.feed.querySelector(`[data-post-id="${CSS.escape(scrollToPostId)}"]`);
+    // One frame, so the snap container has laid out before we jump to the card.
+    if (card) requestAnimationFrame(() => card.scrollIntoView({ block: 'start' }));
+  } else {
+    dom.feed.scrollTop = 0;
+  }
+
+  // Comment counts only exist on reel cards, so don't fetch them for a grid.
+  if (!isGrid) primeCounts(posts);
+}
+
+function selectChannel(channelId) {
+  activeChannel = channelId;
+  renderCurrentView();
+}
+
+function setView(next, opts) {
+  if (next !== 'grid' && next !== 'reel') return;
+  view = next;
+  try {
+    localStorage.setItem(VIEW_KEY, view);
+  } catch {
+    /* private browsing — the choice just won't survive a reload */
+  }
+  renderCurrentView(opts);
+}
+
+// Tapping a tile is how you get from the index to the post.
+function openPost(post) {
+  setView('reel', { scrollToPostId: post.id });
 }
 
 async function enterApp(user) {
@@ -118,6 +165,15 @@ async function boot() {
     /* handled where it is awaited */
   });
 
+  try {
+    const saved = localStorage.getItem(VIEW_KEY);
+    if (saved === 'grid' || saved === 'reel') view = saved;
+  } catch {
+    /* private browsing — fall back to the grid default */
+  }
+
+  dom.tabGrid.addEventListener('click', () => setView('grid'));
+  dom.tabReel.addEventListener('click', () => setView('reel'));
   dom.signout.addEventListener('click', handleSignOut);
   dom.gateRetry.addEventListener('click', () => {
     auth.disableAutoSelect();
