@@ -139,7 +139,37 @@
         "What would it take to see cost per contact by channel?",
         "Why are most new contacts unattributed, and does it matter?",
         "Which paid campaigns are behind the paid-search number?"
-      ]
+      ],
+      "target": {
+        "value": "cost per contact visible",
+        "by": "1 Sep"
+      },
+      "task": {
+        "owner": "Marketing ops",
+        "due": "2026-09-01",
+        "milestones": [
+          {
+            "what": "Connect Google Ads in PostHog marketing settings",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "Connect LinkedIn Ads if spend is running",
+            "due": "2026-08-20",
+            "done": false
+          },
+          {
+            "what": "First spend sync verified against invoices",
+            "due": "2026-08-25",
+            "done": false
+          },
+          {
+            "what": "Cost per attributed contact on this card",
+            "due": "2026-09-01",
+            "done": false
+          }
+        ]
+      }
     },
     {
       "id": "2026-08-15-organic-engine",
@@ -194,7 +224,11 @@
         "What makes the OBS post convert so much better than the rest?",
         "What should the next three posts be, on this evidence?",
         "How do we get LinkedIn and X posts into this channel?"
-      ]
+      ],
+      "target": {
+        "value": "a second post above 10% form rate",
+        "by": "30 Sep"
+      }
     },
     {
       "id": "2026-08-15-organic-obs-post",
@@ -223,7 +257,11 @@
       "actions": [
         "Why does this post convert at 14% when nothing else does?",
         "Draft the next post in this exact shape."
-      ]
+      ],
+      "target": {
+        "value": "1500 views",
+        "by": "30 Sep"
+      }
     },
     {
       "id": "2026-08-15-organic-nuke-post",
@@ -247,7 +285,11 @@
       "publishedAt": "2026-08-15T15:06:44Z",
       "actions": [
         "Readers aren't converting here the way OBS readers do — why?"
-      ]
+      ],
+      "target": {
+        "value": "call to action live on page",
+        "by": "1 Sep"
+      }
     },
     {
       "id": "2026-08-15-organic-eu-ai-act-post",
@@ -271,7 +313,11 @@
       "publishedAt": "2026-08-15T15:16:44Z",
       "actions": [
         "What call to action belongs on a compliance post like this?"
-      ]
+      ],
+      "target": {
+        "value": "first reader converted",
+        "by": "15 Sep"
+      }
     },
     {
       "id": "2026-08-15-bugs-ticket-resolution",
@@ -326,7 +372,11 @@
         "What is driving the over-a-week tail?",
         "Which open tickets are oldest right now, and who is waiting?",
         "Draft an SLA proposal from this baseline."
-      ]
+      ],
+      "target": {
+        "value": "2.0 days median",
+        "by": "30 Sep"
+      }
     },
     {
       "id": "2026-08-15-gtm-deal-velocity",
@@ -381,7 +431,11 @@
         "What is in the over-90-day tail, and what stalled it?",
         "How would we cut the median in half?",
         "Which current open evaluations are adding days right now?"
-      ]
+      ],
+      "target": {
+        "value": "21 days median",
+        "by": "31 Oct"
+      }
     },
     {
       "id": "2026-08-15-bugs-open-queue",
@@ -436,7 +490,32 @@
         "Which open ticket is blocking the most money?",
         "The oldest one has been open 23 days — what is it and who owns it?",
         "How much of this queue is real versus chatbot noise?"
-      ]
+      ],
+      "target": {
+        "value": "0 tickets older than 7 days",
+        "by": "1 Sep"
+      },
+      "task": {
+        "owner": "TBN",
+        "due": "2026-08-17",
+        "milestones": [
+          {
+            "what": "Reproduce the API rejection and confirm docs vs validator",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Reply to the customer with the fix or a corrected doc",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Triage every untouched chatbot ticket",
+            "due": "2026-08-17",
+            "done": false
+          }
+        ]
+      }
     },
     {
       "id": "2026-08-15-voice-what-customers-said",
@@ -491,7 +570,27 @@
         "What exactly did the studio that churned say?",
         "Which evaluation is blocked on a documentation error?",
         "What would it take to unblock all three named accounts this week?"
-      ]
+      ],
+      "target": {
+        "value": "0 unanswered blockers",
+        "by": "22 Aug"
+      },
+      "task": {
+        "owner": "TBN",
+        "due": "2026-08-17",
+        "milestones": [
+          {
+            "what": "Collect DPA, subprocessor list and rate limits",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Written answers sent to the evaluating customer",
+            "due": "2026-08-17",
+            "done": false
+          }
+        ]
+      }
     },
     {
       "id": "2026-08-15-me-amit-h2-asks",
@@ -522,7 +621,42 @@
         "What is blocking the pricing decision right now?",
         "Which of my three asks unblocks the most other people?",
         "Draft the pricing note for Michael."
-      ]
+      ],
+      "target": {
+        "value": "pricing decision made",
+        "by": "29 Aug"
+      },
+      "task": {
+        "owner": "Amit & Michael",
+        "due": "2026-08-29",
+        "milestones": [
+          {
+            "what": "Draft the three tiers with numbers",
+            "due": "2026-08-16",
+            "done": false
+          },
+          {
+            "what": "Review with Michael",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "Sales feedback round",
+            "due": "2026-08-20",
+            "done": false
+          },
+          {
+            "what": "Final numbers locked",
+            "due": "2026-08-24",
+            "done": false
+          },
+          {
+            "what": "Announced, live in every open conversation",
+            "due": "2026-08-29",
+            "done": false
+          }
+        ]
+      }
     },
     {
       "id": "2026-08-15-org-h2-arithmetic",
@@ -577,7 +711,37 @@
         "What is my function's ask this month, and where did it come from?",
         "Which tripwire is closest to firing right now?"
       ],
-      "level": "company"
+      "level": "company",
+      "target": {
+        "value": "path A or B chosen",
+        "by": "29 Aug"
+      },
+      "task": {
+        "owner": "CS, with Sales on the largest account",
+        "due": "2026-08-31",
+        "milestones": [
+          {
+            "what": "Save plan written for the account closing this month",
+            "due": "2026-08-18",
+            "done": false
+          },
+          {
+            "what": "Save plan for the 5 Sep account, reviewed with Sales",
+            "due": "2026-08-21",
+            "done": false
+          },
+          {
+            "what": "Plans for the remaining five, one per day",
+            "due": "2026-08-28",
+            "done": false
+          },
+          {
+            "what": "All seven reviewed at the Monday three-number review",
+            "due": "2026-08-31",
+            "done": false
+          }
+        ]
+      }
     },
     {
       "id": "2026-08-15-org-h2-target-waterfall",
@@ -632,7 +796,11 @@
         "What single action closes the most of the gap this week?",
         "Rebuild today's numbers from HubSpot and PostHog."
       ],
-      "level": "company"
+      "level": "company",
+      "target": {
+        "value": "all 7 checks live",
+        "by": "5 Sep"
+      }
     },
     {
       "id": "2026-08-14-create-weekly-pulse",
@@ -737,7 +905,11 @@
         "The week of Aug 10 is tracking ahead. What changed?",
         "Draft a short Create traction update for the team."
       ],
-      "level": "function"
+      "level": "function",
+      "target": {
+        "value": "60 weekly active",
+        "by": "30 Sep"
+      }
     },
     {
       "id": "2026-08-14-create-email-signup-tracker",
@@ -767,7 +939,11 @@
         "How many signups are genuinely attributable to the email?",
         "Is anything worth changing before the next send?"
       ],
-      "level": "team"
+      "level": "team",
+      "target": {
+        "value": "next send decided",
+        "by": "22 Aug"
+      }
     },
     {
       "id": "2026-08-13-marketing-positioning-audit",
@@ -822,7 +998,11 @@
         "What should change in v1.8 of the positioning doc?",
         "Draft the rewrite for the claims that didn't survive."
       ],
-      "level": "function"
+      "level": "function",
+      "target": {
+        "value": "v1.8 rewritten",
+        "by": "29 Aug"
+      }
     }
   ]
 }

@@ -114,6 +114,74 @@ function renderChart(post) {
   return null;
 }
 
+// "15 Sep" from an ISO date; falls back to the raw string for free-text dates.
+function shortDate(str) {
+  const d = new Date(str);
+  if (Number.isNaN(d.getTime())) return str;
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+// The house rule: a number without a target and a date is not allowed.
+function renderTarget(post, compact) {
+  if (!post.target) return null;
+  return el('span', { class: compact ? 'tile-target' : 'hero-target' }, [
+    el('span', { class: 'target-arrow', 'aria-hidden': 'true' }, ['→']),
+    ` ${post.target.value} · by ${post.target.by}`,
+  ]);
+}
+
+// The execution strip: owner, deadline, and the next milestone. Overdue goes
+// red; a next action further than ~18 hours out gets called out too — the rule
+// is that there is always a next action inside the window.
+const WINDOW_MS = 18 * 60 * 60 * 1000;
+
+function taskState(task) {
+  const next = task.milestones.find((m) => !m.done);
+  if (!next) return { next: null, tone: 'done', note: 'all milestones done' };
+
+  const due = Date.parse(next.due);
+  if (Number.isNaN(due)) return { next, tone: 'due', note: '' };
+  const now = Date.now();
+  if (due < now) return { next, tone: 'overdue', note: 'overdue' };
+  if (due - now > WINDOW_MS) return { next, tone: 'loose', note: 'beyond the 18h window' };
+  return { next, tone: 'due', note: 'inside 18h' };
+}
+
+function renderTask(post, compact) {
+  if (!post.task) return null;
+  const task = post.task;
+  const state = taskState(task);
+  const ownerMissing = /^tbn$/i.test(task.owner);
+
+  if (compact) {
+    // Tile version: one line — owner, and the next milestone's state.
+    return el('span', { class: `tile-task tile-task--${state.tone}${ownerMissing ? ' tile-task--unowned' : ''}` }, [
+      el('span', { class: 'task-flag', 'aria-hidden': 'true' }, ['⚑']),
+      ownerMissing ? 'NO OWNER' : task.owner,
+      state.next ? ` · ${shortDate(state.next.due)}: ${state.next.what}` : ' · done',
+    ]);
+  }
+
+  const done = task.milestones.filter((m) => m.done).length;
+
+  return el('div', { class: `task-strip task-strip--${state.tone}` }, [
+    el('div', { class: 'task-head' }, [
+      el('span', { class: `task-owner${ownerMissing ? ' task-owner--missing' : ''}` }, [
+        ownerMissing ? 'NO OWNER YET' : task.owner,
+      ]),
+      el('span', { class: 'task-due num' }, [`due ${shortDate(task.due)}`]),
+      el('span', { class: 'task-progress num' }, [`${done}/${task.milestones.length}`]),
+    ]),
+    state.next
+      ? el('p', { class: 'task-next' }, [
+          el('strong', {}, [`Next · ${shortDate(state.next.due)}`]),
+          ` ${state.next.what}`,
+          state.note ? el('span', { class: 'task-note' }, [` — ${state.note}`]) : null,
+        ])
+      : el('p', { class: 'task-next' }, [el('strong', {}, ['All milestones done.'])]),
+  ]);
+}
+
 // The altitude a post speaks at, shortest label that still reads.
 const LEVEL_LABELS = {
   all: 'All levels',
@@ -221,6 +289,7 @@ function renderMedia(post) {
     el('div', { class: 'hero-fact' }, [
       el('p', { class: 'hero-label' }, [hero.label]),
       el('p', { class: 'hero-value' }, [hero.value]),
+      renderTarget(post, false),
     ]),
     renderChart(post),
     rest.length
@@ -317,6 +386,7 @@ function renderCard(post, channel, handlers) {
   return el('article', { class: 'post-card', dataset: { postId: post.id } }, [
     head,
     renderMedia(post),
+    renderTask(post, false),
     el('footer', { class: 'post-actions' }, actions),
     chips,
     caption,
@@ -368,6 +438,12 @@ function renderTile(post, channel, onOpenPost) {
       ])
     );
   }
+
+  const target = renderTarget(post, true);
+  if (target) inner.push(target);
+
+  const task = renderTask(post, true);
+  if (task) inner.push(task);
 
   // Full-width tiles have room for the same chart the card shows.
   const chart = renderChart(post);

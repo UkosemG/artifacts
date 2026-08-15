@@ -1276,6 +1276,81 @@ body {
 .level-badge--team { background: #e1f0e8; color: #14432b; }
 .level-badge--me { background: var(--ink); color: var(--text-light); }
 
+/* ---------- Targets + tasks (cards) ---------- */
+
+.hero-target {
+  display: block;
+  margin-top: 6px;
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  color: var(--violet);
+}
+
+/* Execution strip: what, who, till when, and the next milestone. */
+.task-strip {
+  margin: 0 16px 4px;
+  padding: 11px 13px;
+  border-radius: var(--r-md);
+  background: var(--lavender-soft);
+  border-left: 3px solid var(--violet);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.task-strip--overdue {
+  background: #fce7ef;
+  border-left-color: #b32357;
+}
+
+.task-strip--loose {
+  background: #fbf0df;
+  border-left-color: #9a5b00;
+}
+
+.task-strip--done {
+  opacity: 0.75;
+}
+
+.task-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.task-owner {
+  font-weight: 600;
+  font-size: 0.813rem;
+}
+
+.task-owner--missing {
+  color: #b32357;
+  letter-spacing: 0.04em;
+}
+
+.task-due,
+.task-progress {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.688rem;
+  color: var(--dusk);
+}
+
+.task-progress {
+  margin-left: auto;
+}
+
+.task-next {
+  margin: 0;
+  font-size: 0.813rem;
+}
+
+.task-note {
+  color: var(--dusk);
+  font-style: italic;
+}
+
 /* ---------- Post view chrome + grid ---------- */
 
 /* Only visible inside an opened post — the way back to the grid. */
@@ -1452,6 +1527,45 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+/* The house rule made visible: every number carries where it must get to. */
+.tile-target {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+}
+
+.target-arrow {
+  font-weight: 700;
+}
+
+/* One-line execution state on a tile: owner and next milestone. */
+.tile-task {
+  font-family: 'DM Mono', ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  min-width: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.task-flag {
+  margin-right: 3px;
+}
+
+.tile-task--overdue,
+.tile-task--unowned {
+  color: #8f1140;
+  font-weight: 600;
+}
+
+.tile-task--done {
+  opacity: 0.6;
 }
 
 /* The card's own chart, scaled to a tile. Labels stay — they are the context. */

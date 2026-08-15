@@ -53,6 +53,34 @@ function normalizeFacts(raw) {
     .map((f) => ({ label: String(f.label ?? ''), value: String(f.value ?? '') }));
 }
 
+// A number without a target and a date is not allowed on this feed — that is
+// the house rule. The checker enforces presence; this only normalizes shape.
+function normalizeTarget(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const value = String(raw.value || '').trim();
+  const by = String(raw.by || '').trim();
+  if (!value || !by) return null;
+  return { value, by };
+}
+
+// A task is not a task until it has an owner, a deadline, and milestones that
+// keep the next action inside an ~18-hour window. "TBN" is a valid owner value
+// precisely so the gap renders red instead of hiding.
+function normalizeTask(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const owner = String(raw.owner || '').trim();
+  const due = String(raw.due || '').trim();
+  const milestones = (Array.isArray(raw.milestones) ? raw.milestones : [])
+    .filter((m) => m && typeof m === 'object' && m.what && m.due)
+    .map((m) => ({
+      what: String(m.what),
+      due: String(m.due),
+      done: m.done === true,
+    }));
+  if (!owner || !due || milestones.length === 0) return null;
+  return { owner, due, milestones };
+}
+
 // Charts are only rendered from data that's actually present and numeric —
 // a malformed chart is dropped rather than drawn from partial values.
 function normalizeChart(raw) {
@@ -107,6 +135,8 @@ function normalizePost(raw, knownChannelIds, index) {
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: normalizeFacts(raw.facts),
     chart: normalizeChart(raw.chart),
+    target: normalizeTarget(raw.target),
+    task: normalizeTask(raw.task),
     level: LEVELS.includes(raw.level) ? raw.level : DEFAULT_LEVEL,
     // Who this is actually for at the "me" level — an email, or a role name.
     owner: typeof raw.owner === 'string' ? raw.owner.toLowerCase() : '',
@@ -133,6 +163,8 @@ function artifactToPost(raw, index) {
     title,
     description: typeof raw.description === 'string' ? raw.description : '',
     facts: [],
+    target: null,
+    task: null,
     level: DEFAULT_LEVEL,
     owner: '',
     artifactUrl: url,

@@ -129,6 +129,36 @@ for (const [i, p] of posts.entries()) {
   if (!Array.isArray(p.facts) || p.facts.length === 0) {
     warnings.push(`"${label}" has no facts — its tile will show the title instead`);
   }
+
+  // House rule: a number without a target and a date is not allowed. Any post
+  // that shows figures must say where the figure has to get to, and by when.
+  const showsNumbers = (Array.isArray(p.facts) && p.facts.length > 0) || p.chart;
+  if (showsNumbers) {
+    const t = p.target;
+    if (!t || typeof t !== 'object' || !String(t.value || '').trim() || !String(t.by || '').trim()) {
+      fail(
+        `${where} ("${label}") shows figures but has no target — every number needs ` +
+          `a target {value, by}. A number without a destination is decoration.`
+      );
+    }
+  }
+
+  // A task must be executable: owner, deadline, and dated milestones.
+  if (p.task != null) {
+    const t = p.task;
+    const bad = (msg) => fail(`${where} ("${label}") task ${msg}`);
+    if (!t || typeof t !== 'object') bad('is not an object');
+    else {
+      if (!String(t.owner || '').trim()) bad('has no owner — use "TBN" to make the gap visible, not blank');
+      if (!String(t.due || '').trim()) bad('has no due date');
+      const ms = Array.isArray(t.milestones) ? t.milestones : [];
+      if (ms.length === 0) bad('has no milestones — a deadline with no path to it is a wish');
+      for (const [j, m] of ms.entries()) {
+        if (!m || !String(m.what || '').trim()) bad(`milestone[${j}] has no "what"`);
+        if (!m || Number.isNaN(Date.parse(m.due))) bad(`milestone[${j}] due is not a parseable date`);
+      }
+    }
+  }
 }
 
 // ---------- public-repo scan ----------
