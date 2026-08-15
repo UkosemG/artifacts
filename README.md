@@ -29,7 +29,15 @@ config.js         GOOGLE_CLIENT_ID / CHAT_PROXY_URL / ALLOWED_DOMAIN  ← fill t
 js/               main.js (boot) · auth.js · store.js · feed.js · chat.js · ui.js
 data/feed.json    channels and posts — this is what you edit to publish a dashboard
 worker/           Cloudflare Worker: verifies the Google token, relays to Claude
+scripts/          check-feed.mjs — validates the feed and keeps figures off cards
 artifacts.json    generated elsewhere (see below)
+```
+
+Run the checks the way CI does:
+
+```bash
+node scripts/check-feed.mjs        # validate data/feed.json
+node scripts/check-feed.test.mjs   # prove the checker still catches violations
 ```
 
 ## Publishing a dashboard
@@ -40,11 +48,17 @@ Claude: *"add my Q4 forecast dashboard to the GTM channel in the feed."*
 
 ## A note on what's public
 
-This repo is public. Card titles and the key figures on them are readable by anyone,
-so keep those non-sensitive — they're a teaser. The dashboards themselves live on
-claude.ai and are protected by artifact sharing, which is the real access control. The
-sign-in gate here is UX; the worker is the enforced boundary. Full detail in
-[SETUP.md](./SETUP.md#whats-public-and-what-isnt).
+This repo is public, so everything in `data/feed.json` is readable by anyone. Cards
+carry counts, cadence and dates — never revenue, targets, pipeline, deal sizes or
+customer names. Those belong in the linked Claude artifact, where artifact sharing is
+the real access control. The sign-in gate here is UX; the worker is the enforced
+boundary. Full detail in [SETUP.md](./SETUP.md#whats-public-and-what-isnt).
+
+`scripts/check-feed.mjs` enforces the figures half of that rule in CI: currency
+amounts, abbreviated amounts like `4M`, comma-grouped numbers, and finance words
+carrying a quantity all fail the build. It cannot check for customer names — a
+denylist of those would leak them into this same public repo — so that part stays a
+human rule.
 
 ## `artifacts.json`
 

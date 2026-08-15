@@ -1,7 +1,7 @@
 {
   "version": 1,
   "_note": "Every figure here must come from the dashboard it links to. If a number isn't in the artifact, leave it out — an empty card is better than a wrong one.",
-  "_public": "This repo is PUBLIC, so this file is world-readable. Never put revenue, targets, pipeline, deal sizes or customer names in a card. Those belong in the Claude artifact, where access is controlled. Cards carry counts, cadence and dates only.",
+  "_public": "This repo is PUBLIC, so this file is world-readable. Never put revenue, targets, pipeline, deal sizes or customer names in a card. Those belong in the Claude artifact, where access is controlled. Cards carry counts, cadence and dates only. Figures are enforced by scripts/check-feed.mjs in CI; customer names are not, because a denylist of them would itself leak here — that one is on you.",
   "channels": [
     {
       "id": "org",

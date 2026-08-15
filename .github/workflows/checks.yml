@@ -1,0 +1,33 @@
+name: checks
+
+# This repo is public and deploys straight from main, so a bad push is live
+# immediately. These run before that happens.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # No build step and no dependencies — the app is served as raw files —
+      # so a parse error would only surface in the browser.
+      - name: Parse every script
+        run: |
+          for f in js/*.js config.js worker/worker.js scripts/*.mjs; do
+            node --check "$f" || exit 1
+          done
+          echo "all scripts parse"
+
+      - name: Validate the feed, and keep figures off public cards
+        run: node scripts/check-feed.mjs
+
+      - name: Prove the feed checker still catches violations
+        run: node scripts/check-feed.test.mjs
