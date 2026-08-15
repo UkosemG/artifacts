@@ -344,22 +344,31 @@ function renderTile(post, channel, onOpenPost) {
   const hero = (post.facts || [])[0];
   const tint = tintIndex(channel, channel ? channel.order : 0);
 
-  const inner = [];
-  if (channel && channel.emoji) {
-    inner.push(el('span', { class: 'tile-mark', 'aria-hidden': 'true' }, [channel.emoji]));
-  }
-  // Altitude sits opposite the channel glyph, so a mixed grid reads at a glance.
-  inner.push(el('span', { class: `tile-level tile-level--${post.level}` }, [LEVEL_LABELS[post.level]]));
+  // Title always renders: a bare number on a tint doesn't say what it measures.
+  const head = el('span', { class: 'tile-head' }, [
+    channel && channel.emoji
+      ? el('span', { class: 'tile-mark', 'aria-hidden': 'true' }, [channel.emoji])
+      : null,
+    el('span', { class: 'tile-title' }, [post.title]),
+    el('span', { class: `tile-level tile-level--${post.level}` }, [LEVEL_LABELS[post.level]]),
+  ]);
+
+  const inner = [head];
 
   if (hero) {
-    // Long values step down a size — "29 Aug" set at "138"'s size overflows the tile.
+    // Long values step down a size — "29 Aug" set at "138"'s size overwhelms the row.
     const long = String(hero.value).length > 4;
-    inner.push(el('span', { class: `tile-val${long ? ' tile-val--sm' : ''}` }, [hero.value]));
-    inner.push(el('span', { class: 'tile-lab' }, [hero.label]));
-  } else {
-    // No figures to lead with, so the tile falls back to the title.
-    inner.push(el('span', { class: 'tile-title' }, [post.title]));
+    inner.push(
+      el('span', { class: 'tile-hero' }, [
+        el('span', { class: `tile-val${long ? ' tile-val--sm' : ''}` }, [hero.value]),
+        el('span', { class: 'tile-lab' }, [hero.label]),
+      ])
+    );
   }
+
+  // Full-width tiles have room for the same chart the card shows.
+  const chart = renderChart(post);
+  if (chart) inner.push(chart);
 
   return el(
     'button',

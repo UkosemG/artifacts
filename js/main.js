@@ -114,8 +114,17 @@ function renderCurrentView({ scrollToPostId, restoreScroll } = {}) {
       });
     }
   } else if (restoreScroll) {
-    // Mobile scrolls #feed; desktop scrolls the page. The inactive one is 0.
     requestAnimationFrame(() => {
+      // Focus first, scroll last. preventScroll alone isn't enough here: the
+      // re-render drops the focused card, and the browser's own focus recovery
+      // lands the grid on the tile instead of the offset we saved.
+      if (restoreScroll.focusTile) {
+        const tile = dom.feed.querySelector(
+          `[data-tile-for="${CSS.escape(restoreScroll.focusTile)}"]`
+        );
+        if (tile) tile.focus({ preventScroll: true });
+      }
+      // Mobile scrolls #feed; desktop scrolls the page. The inactive one is 0.
       dom.feed.scrollTop = restoreScroll.feedTop;
       window.scrollTo(0, restoreScroll.winY);
     });
@@ -159,13 +168,9 @@ function openPost(post) {
 function closePost() {
   if (mode !== 'post') return;
   mode = 'grid';
-  renderCurrentView({ restoreScroll: gridScroll });
-  // Focus returns to the tile that opened the post, like closing a dialog.
-  const id = openPostId;
-  requestAnimationFrame(() => {
-    const tile = id && dom.feed.querySelector(`[data-tile-for="${CSS.escape(id)}"]`);
-    if (tile) tile.focus({ preventScroll: true });
-  });
+  // Focus returns to the tile that opened the post, like closing a dialog —
+  // handled inside the render so it lands in the same frame as the scroll.
+  renderCurrentView({ restoreScroll: { ...gridScroll, focusTile: openPostId } });
   gridScroll = null;
   openPostId = null;
 }

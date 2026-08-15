@@ -1317,27 +1317,52 @@ body {
   border-radius: var(--r-sm);
 }
 
+/* One column, full width, scrolling like a feed — roughly three to a phone
+   screen. Squares three-across left no room for a title, and a number without
+   one doesn't say what it measures. */
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 12px 16px 20px;
 }
 
 .tile {
-  position: relative;
-  aspect-ratio: 1;
+  /* Sized so a tile carrying a chart is nearly full — taller leaves a dead gap
+     between the figure and the chart pinned below it. Lands ~3.5 to a phone. */
+  min-height: clamp(150px, 20dvh, 195px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 10px 7px;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 15px 18px 17px;
   border: 0;
-  text-align: center;
+  border-radius: var(--r-lg);
+  text-align: left;
   font-family: inherit;
   cursor: pointer;
   overflow: hidden;
-  transition: filter 0.16s ease;
+  transition: filter 0.16s ease, transform 0.16s ease;
+}
+
+/* A tile with no chart has nothing to fill that height with, so let it shrink
+   to its content rather than sit on a pool of empty tint. Uneven heights are
+   fine — posts vary. Falls back to the min-height where :has() is unsupported. */
+.tile:not(:has(.chart)) {
+  min-height: 0;
+}
+
+.tile:hover {
+  transform: translateY(-1px);
+}
+
+/* Channel, title, altitude — one row, so the hero below is unambiguous. */
+.tile-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
 }
 
 .tile:hover {
@@ -1357,21 +1382,18 @@ body {
 .tile--t6 { background: var(--tint-6); color: var(--tint-6-ink); }
 
 .tile-mark {
-  position: absolute;
-  top: 7px;
-  left: 8px;
-  font-size: 0.75rem;
-  opacity: 0.72;
+  flex: none;
+  font-size: 0.875rem;
+  opacity: 0.8;
 }
 
-/* Altitude sits opposite the channel glyph. It inherits the tile's ink, so it
-   stays legible on every tint without needing a per-tint rule. */
+/* Altitude is pushed to the far end of the header row. It inherits the tile's
+   ink, so it stays legible on every tint without needing a per-tint rule. */
 .tile-level {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+  margin-left: auto;
+  flex: none;
   font-family: 'DM Mono', ui-monospace, monospace;
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 0.62;
@@ -1388,33 +1410,105 @@ body {
   border-radius: var(--r-full);
 }
 
+/* The figure and the thing it measures, kept on one baseline. */
+.tile-hero {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+}
+
 .tile-val {
   font-family: 'DM Mono', ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
   font-weight: 500;
-  font-size: clamp(1.5rem, 8vw, 2.125rem);
+  font-size: clamp(2rem, 9vw, 2.5rem);
   line-height: 1;
   letter-spacing: -0.04em;
+  flex: none;
 }
 
 .tile-val--sm {
-  font-size: clamp(1rem, 5.2vw, 1.375rem);
+  font-size: clamp(1.25rem, 6vw, 1.75rem);
   letter-spacing: -0.02em;
 }
 
 .tile-lab {
-  font-size: 0.5625rem;
+  font-size: 0.625rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  line-height: 1.25;
-  opacity: 0.8;
+  line-height: 1.3;
+  opacity: 0.82;
+  min-width: 0;
 }
 
 .tile-title {
-  font-size: 0.75rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
   letter-spacing: -0.01em;
+  min-width: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* The card's own chart, scaled to a tile. Labels stay — they are the context. */
+.tile .chart {
+  margin: auto 0 0;
+}
+
+/* Chart text takes the tile's own ink rather than --dusk, which is tuned for a
+   white surface and fights six different tints. */
+.tile .chart-label,
+.tile .proportion-key {
+  color: inherit;
+  /* 0.78 is the floor that clears 4.5:1 on all six tints — the amber one is
+     the binding constraint at 5.11; anything lower fails it. */
+  opacity: 0.78;
+}
+
+.tile .chart-label {
+  font-size: 0.5625rem;
+  margin-bottom: 4px;
+}
+
+.tile .chart-range {
+  font-size: 0.5rem;
+}
+
+/* The sparkline follows the tile's ink too — a fixed violet line reads as a
+   mistake on the green and teal tints. */
+.tile .spark {
+  height: 34px;
+}
+
+.tile .spark-line {
+  stroke: currentColor;
+}
+
+.tile .spark-fill {
+  fill: currentColor;
+  opacity: 0.16;
+}
+
+.tile .spark-dot {
+  fill: currentColor;
+  /* No white ring: the tile isn't a white surface for it to sit against. */
+  stroke: none;
+}
+
+/* Proportion segments keep their semantic colours — good/partial/bad is
+   meaning, not decoration — so they stay fixed across every tint. */
+.tile .proportion {
+  height: 8px;
+}
+
+.tile .proportion-key {
+  font-size: 0.5625rem;
+  gap: 3px 10px;
+  margin-top: 6px;
 }
 
 @media (max-width: 899px) {
